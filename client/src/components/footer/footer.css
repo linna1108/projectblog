@@ -1,0 +1,62 @@
+.footer{
+	padding-bottom: 0.5rem;    
+    background-image: url("https://www.vanlanguni.edu.vn/images/vlu-header-footer.jpg");
+    background-size: cover;
+    
+}
+.footerContainer{
+    width: 100%;
+    height: 200px;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    flex-wrap: wrap;
+	justify-content: center;
+    margin: 0 auto; 
+}
+.footerContainer-1{
+    width: 35%;
+    padding: 0 30px;
+    margin-top: 49px;
+    margin-right: -56px;
+}
+.logofooter{
+    width: 70%;
+    height: 80px;
+
+}
+.footerContainer-2{
+    margin-top: 32px;
+    width: 30%;
+    padding: 0 76px;
+    text-align  : center;
+}
+.footerContainer-3{
+    margin-top: 32px;
+    width: 30%;
+    padding: 0 1px;
+}
+.footerContainer h4 {
+    color: rgb(255, 255, 255);
+}
+.footerContainer ul {
+    list-style: none;
+    line-height:1.5 ;
+    margin-right: 44px;
+    margin-top: 5px;
+    display:grid;
+}
+.footerContainer a{
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    
+}
+.footerContainer p{
+    font-size: 15px;
+    margin-top: 10px;
+    color: rgb(0, 0, 0);
+    font-weight: 600;
+
+}

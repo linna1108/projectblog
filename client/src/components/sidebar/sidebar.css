@@ -1,0 +1,42 @@
+.sidebar{
+    flex: 3;
+    
+    
+}
+.sidebarItem{   
+  margin: 40px 40px 0 -27px;
+  background-color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 10px 0;
+  box-sizing: border-box;
+  letter-spacing: 2px;
+}
+.sidebarItem1{
+  margin:10px 40px 0 -27px;
+  background-color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 10px 0;
+  box-sizing: border-box;
+  letter-spacing: 2px;
+}
+.recentPost{
+  margin-top: 5px;
+  text-align: left;
+  border-bottom: 1px solid rgb(228, 227, 227);
+  margin-bottom: 10px;
+  padding-left: 5px;
+  
+}
+.recentPost h3{
+  color: #6c6c66;
+  font-weight: 500;
+  letter-spacing: 1px;
+  font-size: 14px;
+}
+.recentPost span{
+  font-size: 10px;
+  font-weight: 400;
+  color: #6c6c66;
+
+}
+

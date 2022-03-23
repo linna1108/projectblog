@@ -1,0 +1,93 @@
+.settings {
+    display: flex;
+    width: 100%;
+    height: 110vh;
+    background-image: linear-gradient(#FFFAFA,#092e56);
+    
+    
+  }
+  
+  .settingsWrapper {
+    padding: auto;
+    margin: auto;
+  }
+  .settingsbox{
+    margin-top: 30px;
+    width: 550px;
+    height:500px;
+    background-color: #e9e9e981;
+  }
+  
+  .settingsTitle {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    
+  }
+  
+  .settingsUpdateTitle {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #ae0707;
+    
+  }
+  
+  .settingsForm {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
+  
+  .settingsPP {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .settingsPP > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+    object-fit: cover;
+  }
+  
+  .settingsPPIcon {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #ae0707;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .settingsForm > label {
+    font-size: 17px;
+    margin-top: 10px;
+  }
+  
+  .settingsForm > input {
+    color: gray;
+    margin: 10px 0;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    border-bottom: 1px solid lightgray;
+    
+  }
+  
+  .settingsSubmit{
+      width: 150px;
+      align-self: center;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      background-color: #ae0707;
+      padding: 10px;
+      margin-top: 20px;
+      cursor: pointer;
+  }
