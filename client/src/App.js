@@ -1,5 +1,4 @@
 import Single from "./pages/single/Single";
-import Topbar from "./components/topbar/Topbar";
 import Write from "./pages/write/Write";
 import Home from "./pages/home/Home";
 import Settings from "./pages/settings/Settings";
@@ -15,10 +14,11 @@ import {
 	Routes,
 	Route,
 	Switch,
+  Redirect,
 } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "./context/Context";
-import Footer from "./components/footer/Footer";
+import Messager from "./pages/messager/Messager";
 function App() {
   const {user} = useContext(Context);
 
@@ -35,6 +35,9 @@ function App() {
         <Route path="/settings"> {user ? <Settings/> : <Register/>} </Route>               
         <Route path="/post/:postId">
           <Single/>
+        </Route>
+        <Route path="/messager">
+         {!user ? <Redirect to ="/" /> : <Messager/>}
         </Route>
         <Route path="/profile/:username">
           <Profile/>

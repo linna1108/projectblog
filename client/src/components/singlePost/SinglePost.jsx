@@ -1,10 +1,12 @@
 import CommentForm from "../../components/formcomments/CommentForm";
+import Comment from "../../components/comments/Comment";
 import "./singlePost.css";
 import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
+import { ThumbUpAltOutlined } from "@mui/icons-material";
 
 export default function SinglePost() {
   const location = useLocation();
@@ -17,7 +19,12 @@ export default function SinglePost() {
   const [categories, setCategories] = useState("");
   const [updateMode, setUpdateMode] = useState(false);
   const [file, setFile] = useState("");
+  const [like, setLike] = useState(0);
   const [success, setSuccess] = useState("");
+  const [comment, setComment] = useState([]);
+
+
+  
   useEffect(() => {
     const getPost = async () => {
       const res = await axios.get("/posts/" + path);
@@ -28,21 +35,33 @@ export default function SinglePost() {
     };
     getPost();
   }, [path]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await axios.get(`/post/${post._id}/comments`);
+        setComment(res.data);
+      } catch (error) {}
+    };
+    fetchPosts();
+  }, []);
+
   const handleDelete = async () => {
     try {
       await axios.delete(`/posts/${post._id}`, {
-        data: { username: user.username },
+        data: { username: user.username},
       });
       window.location.replace("/");
     } catch (err) {}
   };
 
   const handleUpdate = async () => {
-    const updatePost ={
+    
+    const updatePost = {
       username: user.username,
-        title,
-        desc,
-        categories,
+      title,
+      desc,
+      categories,
     };
     if (file) {
       const data = new FormData();
@@ -56,10 +75,22 @@ export default function SinglePost() {
     }
 
     try {
-      await axios.put(`/posts/${post._id}`,updatePost );
+      await axios.put(`/posts/${post._id}`, updatePost);
       setUpdateMode(false);
       window.location.reload();
-		
+    } catch (err) {}
+  };
+
+  const likeHandler = async () => {
+    const newLike = {
+      user: user._id,
+    };
+    try {
+      const res = await axios.put(`/posts/${post._id}/like`, { newLike });
+      setLike(res.data);
+      setPost({ ...post, like });
+      window.location.reload();
+      return setSuccess("Post have been liked");
     } catch (err) {}
   };
 
@@ -100,9 +131,21 @@ export default function SinglePost() {
             <option value="Programming">Programming</option>
           </select>
         ) : (
-          <p className="postCategory">{post.categories}</p>
-          
+          <p className="writeCategory">{post.categories}</p>
         )}
+        <div className="singlePostInfo">
+          <span className="singlePostAuthor">
+            Publish by:
+            <Link to={`/profile/${post.username}`} className="link">
+              <b> {post.username}</b>
+            </Link>{" "}
+            on
+            <span className="singPostDate">
+              {new Date(post.createdAt).toDateString()}
+            </span>
+            &nbsp;
+          </span>
+        </div>
         {updateMode ? (
           <input
             type="text"
@@ -128,26 +171,66 @@ export default function SinglePost() {
             )}
           </h1>
         )}
-        <div className="singlePostInfo">
-                    <span className="singlePostAuthor" >Author: 
-                    <Link to={`/?user=${post.username}`} className="link">
-                    <b> {post.username}</b>
-                    </Link>
-                   </span>
-                    <span className="singPostDate">{new Date (post.createdAt).toDateString()}</span>
-                </div>
-                {updateMode ? (
-                  <textarea className="singPostDescInput" value={desc} onChange={ (e) => setDesc(e.target.value)}/>
-                   ) : (
-                <p className="singlePostDesc">
-                   {desc}
-                </p>
-                )}   
-                {updateMode && (
-                  <button className="singlePostButton" onClick={handleUpdate}>Update</button> 
-                )} 
-                
+
+        {updateMode ? (
+          <textarea
+            rows={50}
+            className="singlePostDescInput"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+          />
+        ) : (
+          <p className="singlePostDesc">{desc}</p>
+        )}
+        {updateMode ? (
+          <button className="singlePostButton" onClick={handleUpdate}>
+            Update 
+          </button>
+        ) : (
+          <>
+            <hr className="line" />
+            <div className="singlePostReactions">
+              <div className="leftReaction">
+                <i
+                  className=" likeReactionThumb far fa-thumbs-up"
+                  onClick={likeHandler}
+                />
+
+                <span className="likesCount">
+                  {post.likes?.length} people likes{" "}
+                </span>
+              </div>
+              <div className="rightReaction">
+                <span className="rightReactionCount"></span>
+                <span> {post.comments?.length} Comments</span>
+              </div>
+            </div>
+            <hr />
+          </>
+        )}
       </div>
-    </div>
+      {!updateMode && (
+				<>
+					<CommentForm post={post} setPost={setPost} user={user} />
+					{post.comments?.length > 0 ? (
+						post.comments
+							.map((comment) => (
+								<Comment
+									key={comment._id}
+									comment={comment}
+									post={post}
+									user={user}
+									setPost={setPost}
+								/>
+							)
+)							.reverse()
+					) : (
+						<h2 style={{ textAlign: "center", opacity: "0.6" }}>
+							No comments for this post
+						</h2>
+					)}
+				</>
+			)}
+      </div>
   );
 }

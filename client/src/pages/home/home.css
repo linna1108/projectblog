@@ -1,6 +1,6 @@
 .home{
     display: flex;
-    margin-bottom: 100px;
+    margin-bottom: 40px;
 	
 }
 
@@ -37,9 +37,9 @@
     justify-items: center;
     margin:0 10px 0 10px;
 	padding: 10px 20px;
-	font-weight: lighter;
-	font-family: 'Playfair Display', serif; 
-	color: rgb(15, 1, 1);
+	font-weight: 600px;
+	font-family: "Quicksand", sans-serif;
+	color: rgb(0, 0, 0);
 	border: 2px solid #830C12;
 	-webkit-transition-duration: 0.5s;
 	transition-duration: 0.5s;
@@ -49,3 +49,25 @@
   	color: white;
 	border: none;
 }
+.showAdd{
+	padding: 5px;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	
+}
+.up-arrow{
+	position: fixed; 
+	bottom: 100px;
+    right: 5px; 
+	line-height: 60px; 
+	object-fit: cover;
+	width: 50px;
+	z-index: 99;
+     animation: 1s ease-in-out 0s normal none infinite running h-alo-ring-ring;
+
+}
+@keyframes h-alo-ring-ring{0%{transform:rotate(0deg) scale(1) skew(1deg)}10%{transform:rotate(-25deg) scale(1) skew(1deg)}20%{transform:rotate(25deg) scale(1) skew(1deg)}30%{transform:rotate(-25deg) scale(1) skew(1deg)}40%{transform:rotate(25deg) scale(1) skew(1deg)}50%{transform:rotate(0deg) scale(1) skew(1deg)}100%{transform:rotate(0deg) scale(1) skew(1deg)}}
+.order_online_fixed{
+	position: fixed; bottom: 100px;
+    right: 24px; line-height: 60px; z-index: 99; }

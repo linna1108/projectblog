@@ -1,67 +1,58 @@
 const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema(
-    {
-		
-        title:{
-            type: String,
-            required:true,
-            unique:true,
+  {
+    userId: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    desc: {
+      type: String,
+      require: true,
+    },
+    photo: {
+      type: String,
+      required: false,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    profilePic: {
+      type: String,
+      default: "",
+    },
+    categories: {
+      type: Array,
+      require: false,
+    },
+    likes: {
+      type: Array,
+      default: [],
+    },
+
+    comments: [
+      {
+        username:{
+          type:String,
         },
         desc:{
-            type:String,
-            require:true,
+          type:String,
+          require:true,
         },
-        photo:{
-            type:String,
-            required:false,
-        },
-        username:{
-            type:String,
-            required:true,
-        },
-        categories:{
-            type: Array,
-            require:false,
-        },
-        likes: [
-			{
-				user: {
-					type: mongoose.Schema.Types.ObjectId,
-				},
-			},
-		],
-		comments: [
-			{
-				user: {
-					type: mongoose.Schema.Types.ObjectId,
-				},
-				name: {
-					type: String,
-				},
-				avatar: {
-					type: String,
-					default: "",
-				},
-				desc: {
-					type: String,
-					required: true,
-				},
-				likes: [
-					{
-						user: {
-							type: mongoose.Schema.Types.ObjectId,
-						},
-					},
-				],
-				date: {
+        date: {
 					type: Date,
 					default: Date.now,
 				},
-			},
-		],
-    },
-    {timestamps: true}
+      }
+    ]
+  },
+  { timestamps: true }
 );
 
 

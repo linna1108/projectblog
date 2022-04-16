@@ -11,12 +11,12 @@
      -o-filter: grayscale(30%);
      -webkit-filter: brightness(100%);
     
-}
+} 
 .headerTitles {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: 'Playfair Display', serif; 
+    font-family: "Quicksand", sans-serif;
     color: #f9fd00;
     text-shadow: 
     1px  1px     rgb(255, 251, 0), 

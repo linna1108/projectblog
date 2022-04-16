@@ -2,45 +2,70 @@ import "./sidebar.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import {Search} from "@mui/icons-material"
 
 export default function Sidebar() {
-  const [cats, setCats] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(6);
 
-  useEffect(() => {
-    const getCats = async () => {
-      const res = await axios.get("/categories");
-      setCats(res.data);
-    };
-    getCats();
-  });
+  //get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
 
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await axios.get("/posts");
-      setPosts(res.data);
+      setPosts(
+        res.data.sort((p1, p2) => {
+          return new Date(p2.createdAt) - new Date(p1.createdAt);
+        })
+      );
     };
     fetchPosts();
   });
+
   return (
     <div className="sidebar">
+       <div className="sidebarItemSearch">
+          
+          <input
+            placeholder="Search blog"
+            className="searchInput"
+          />
+           <Search className="searchIcon" />
+        </div>
       <div className="sidebarItem">
         <span>RECENT POSTS</span>
-        
+        <hr />
         <div className="recentPost">
-          {posts.map((post) => (
-          <Link to ={`/post/${post._id}`} className="link">
-            <div className="recentPost">
-              <h3>{post.title}</h3>
-              <span>{new Date(post.createdAt).toDateString()}</span>
-            </div> 
-          </Link> 
+          {currentPosts.map((post) => (
+            <Link to={`/post/${post._id}`} className="link">
+              <div className="recentPost">
+                <h3>{post.title}</h3>
+                <span>{new Date(post.createdAt).toDateString()}</span>
+              </div>
+            </Link>
           ))}
         </div>
-        
       </div>
       <div className="sidebarItem1">
         <span>SOCIAL NETWORK</span>
+        <div className="topIcon">
+          <i className="topIcon fab fa-facebook-square"></i>
+          <i className="topIcon fab fa-youtube-square"></i>
+
+        </div>
+      </div>
+      <div className="sidebarItem2">
+       <img className="iconAds" src="https://m.economictimes.com/thumb/msid-54454320,width-1200,height-900,resizemode-4,imgsize-87215/online-job-market-to-double-by-2020-survey.jpg"/>
+       <p className="titleAds">eJob Văn Lang đưa mọi người đến với những công ty hot hiện nay</p>
+      </div>
+      <div className="sidebarItem2">
+       <img className="iconAds" src="https://snipstock.com/assets/cdn/png/e4060e919c83110564449038922bf75b.png"/>
+       <p className="titleAds">Tạo CV hay, đẹp </p>
       </div>
     </div>
   );

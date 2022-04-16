@@ -46,3 +46,34 @@
     margin-top:10px ;
     display: flex;
 }
+.profileChat{
+    display: flex;
+
+}
+.btnFollow{
+    margin-top: 10px;
+    border: none;
+  background-color: #1872f2;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btnMess{
+    margin-top: 10px;
+    border: none;
+  background-color: #1872f2;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 10px;
+}

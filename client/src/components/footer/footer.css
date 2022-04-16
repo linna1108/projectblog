@@ -2,11 +2,11 @@
 	padding-bottom: 0.5rem;    
     background-image: url("https://www.vanlanguni.edu.vn/images/vlu-header-footer.jpg");
     background-size: cover;
+    margin-top: 20px;
     
 }
 .footerContainer{
     width: 100%;
-    height: 200px;
     color: white;
     font-size: 18px;
     display: flex;
@@ -33,7 +33,7 @@
 }
 .footerContainer-3{
     margin-top: 32px;
-    width: 30%;
+    width: 33%;
     padding: 0 1px;
 }
 .footerContainer h4 {

@@ -24,6 +24,7 @@ export default function Settings() {
       email,
       password,
     };
+
     if (file) {
       const data = new FormData();
       const filename = Date.now() + file.name;
@@ -34,9 +35,17 @@ export default function Settings() {
         await axios.post("/upload", data);
       } catch (err) {}
     }
+    const config = {
+			headers: {
+        token:
+          "Bearer "+JSON.parse(localStorage.getItem("user")).accessToken,
+      },
+		};
+    
     try {
-      const res = await axios.put("/users/" + user._id, updatedUser);
+      const res = await axios.put("/users/" + user._id, updatedUser,config);
       setSuccess(true);
+      window.location.replace("/");
       dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
     } catch (err) {
       dispatch({ type: "UPDATE_FAILURE" });

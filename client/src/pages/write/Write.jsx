@@ -11,17 +11,18 @@ export default function Write() {
   const [categories, setCategories] = useState("");
   const [file, setFile] = useState(null);
   const { user } = useContext(Context);
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newPost = {
       username: user.username,
+      userId: user._id,
       title,
       desc,
-      categories,
+      categories
     };
     if (file) {
-      const data = new FormData();
+      const data =new FormData();
       const filename = Date.now() + file.name;
       data.append("name", filename);
       data.append("file", file);
@@ -31,14 +32,20 @@ export default function Write() {
         await axios.post("/upload", data);
       } catch (err) {}
     }
+    const config = {
+			headers: {
+        token:
+          "Bearer "+JSON.parse(localStorage.getItem("user")).accessToken,
+      },
+		};
     try {
       const res = await axios.post("/posts", newPost);
-
+      
       window.location.replace("/post/" + res.data._id);
     } catch (err) {}
   };
 
-  return (
+  return ( 
     <>
       <Topbar />
       <div className="container">

@@ -1,7 +1,7 @@
 
 * {
   box-sizing: border-box;
-  font-family: 'Playfair Display', serif; ;
+  font-family: "Quicksand", sans-serif; ;
 }
 body{
   margin: 0;
@@ -163,26 +163,21 @@ input::placeholder {
   }
 
 }
-.registerButton{
-  margin-top: 20px;
-  margin-right: 70px;
+.btnRegister{
+  text-transform: uppercase;
+  outline: 0;
+  background: #980909;
+  width: 100%;
+  border: 0;
+  padding: 13px;
+  color: #FFFFFF;
+  margin-top: 15px;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
   cursor: pointer;
-  background-color: #ae0707;
-  border: none;
-  color: white;
-  border-radius: 10px;
-  padding: 10px;
 }
-.registerLoginButton{
-    margin-left: 80px;
-    margin-top: 20px;
-    cursor: pointer;
-    background-color: #ae0707;
-    border: none;
-    color: white;
-    border-radius: 10px;
-    padding: 10px;
-}
+
 @media (min-width: 500px) {
   .signup-wrapper .signup-form .login{
       display: inline;
@@ -235,7 +230,7 @@ input::placeholder {
  .signup-wrapper .signup-form .form-title{
       text-align: initial;
       padding :0;
-      margin-left: 55px;
+      margin-left: 60px;
   }
 
 }

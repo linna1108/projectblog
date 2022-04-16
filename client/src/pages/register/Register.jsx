@@ -7,22 +7,30 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setError(false);
-    try {
-      const res = await axios.post("/auth/register", {
-        username,
-        email,
-        password,
-      });
-      res.data && window.location.replace("/login");
-    } catch (err) {
-      setError(true);
+    setPassword(false);
+    if (password !== confirmPassword) {
+      setPasswordError(true);
+    } else {
+      try {
+        const res = await axios.post("/auth/register", {
+          username,
+          email,
+          password,
+        });
+        res.data && window.location.replace("/login");
+      } catch (err) {
+        setError(true);
+      }
     }
   };
-   
+
   return (
     <div class="content-wrapper">
       <div class="content">
@@ -76,24 +84,37 @@ export default function Register() {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </p>
-                  {/* <p class="content-item">
+                  <p class="content-item">
                     <label>
                       <b>Confirm Password</b>
                     </label>
                     <input
                       className="registerInput"
                       type="password"
-                      placeholder="Enter your password again...."
-                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    ></input>
-                  </p> */}
-                  <button className="registerButton" type="submit">
+                      placeholder="Confirm password...."
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                  </p>
+
+                  <button className="btnRegister" type="submit">
                     Register
                   </button>
-                  <Link className="link" to="/login">
-                    <button className="registerLoginButton">Login</button>
-                  </Link>
-                  {error && <span style={{color:"red", marginTop:"10px",marginLeft:"30px"}}>Something went wrong!</span>}
+                  <p class="messageLogin">
+                   Already have an account? 
+                    <Link className="link" to="/login">
+                      <a>Login</a>
+                    </Link>
+                  </p>
+                  {error && (
+                    <span style={{ color: "red", marginTop: "10px" }}>
+                      Something went wrong!
+                    </span>
+                  )}
+                  {passwordError &&(
+                    <span style={{ color: "red", marginTop: "10px" }}>
+                    Password don't match
+                  </span>
+                  )}
                 </form>
               </div>
             </div>

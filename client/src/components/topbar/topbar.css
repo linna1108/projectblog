@@ -92,6 +92,7 @@
     width: 100%;
     left: 0;
     right: auto; 
+    color: aliceblue;
 }
 
 .topLogin{
@@ -129,7 +130,7 @@
     flex-direction: column;
     position: absolute;
     background-color: #3d3c3c91;
-    min-width: 100px;
+    min-width: 120px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     
