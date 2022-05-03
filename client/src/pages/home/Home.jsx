@@ -10,17 +10,19 @@ import Footer from "../../components/footer/Footer";
 import Topbar from "../../components/topbar/Topbar";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
-import {useContext} from "react";
-
+import { useContext } from "react";
+import { Search } from "@mui/icons-material";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const { search } = useLocation();
   const [categories, setCategories] = useState([]);
+  const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(6);
   const { user } = useContext(Context);
+
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
@@ -35,14 +37,6 @@ export default function Home() {
     fetchPosts();
   }, [search]);
 
-  //get current posts
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-
-  //change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
   useEffect(() => {
     const fetchCats = async () => {
       const res = await axios.get("/categories");
@@ -51,6 +45,26 @@ export default function Home() {
     fetchCats();
   }, []);
 
+  const handleSearch = async () => {
+    try {
+      const res = await axios.get(`/posts/search/${searchText}`);
+      setPosts(
+        res.data.sort((p1,p2) => {
+          return new Date(p2.createdAt) - new Date(p1.createdAt);
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  //change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <>
       <Topbar />
@@ -59,12 +73,12 @@ export default function Home() {
         <div class="up-arrow">
           <a href={`/messager`}>
             <img
-              src="https://scontent.fdad3-4.fna.fbcdn.net/v/t1.15752-9/277043063_999376857348538_4350643003617398512_n.png?stp=cp0_dst-png&_nc_cat=101&ccb=1-5&_nc_sid=ae9488&_nc_ohc=duMpxpw-NuoAX-wjaJS&_nc_ht=scontent.fdad3-4.fna&oh=03_AVI9lBi5KpQ0gV288faqIoxfVhBIzoBObknLHHBRw71fUg&oe=626D052D"
+              src="https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.15752-9/278302819_954441878553090_2744298233524016823_n.png?stp=cp0_dst-png&_nc_cat=108&ccb=1-5&_nc_sid=ae9488&_nc_ohc=47NxpIZzNVMAX-hLiTw&tn=z7UC-_iwWDIu-aqm&_nc_ht=scontent.fsgn5-6.fna&oh=03_AVJgs3WeIPzLYX7031AVrGSlkF9MAwF159Pvrd-EtVZjRw&oe=6283E082"
               className="icon-arrow"
             />
           </a>
         </div>
-      )}
+      )} 
 
       <div className="postCategory">
         <ul className="categoryList">
@@ -77,6 +91,19 @@ export default function Home() {
           ))}
         </ul>
       </div>
+
+      <div className="homeItemSearch">
+        
+        <input
+          placeholder="Search title blog"
+          className="searchInput"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <Search className="searchIcon" onClick={ handleSearch} 
+        />
+      </div>
+
       <div className="home">
         <Posts posts={currentPosts} loading={loading} />
         <Sidebar />
@@ -86,7 +113,7 @@ export default function Home() {
         totalPosts={posts.length}
         paginate={paginate}
       />
-      <Footer /> 
+      <Footer />
     </>
   );
 }

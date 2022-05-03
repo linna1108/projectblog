@@ -1,22 +1,25 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link  } from "react-router-dom";
 import "./register.css";
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [error, setError] = useState("");
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setError(false);
-    setPassword(false);
     if (password !== confirmPassword) {
-      setPasswordError(true);
+      setPasswordError("");
+      setConfirmPassword("");
+      setTimeout(() => {
+				setError("");
+			}, 5000);
+			return setError("Passwords do not match");
     } else {
       try {
         const res = await axios.post("/auth/register", {
@@ -26,7 +29,13 @@ export default function Register() {
         });
         res.data && window.location.replace("/login");
       } catch (err) {
-        setError(true);
+        const errors = err.response.data.errors;
+        if (errors) {
+          errors.forEach((error) => setError(error.msg));
+          setTimeout(() => {
+            setError("");
+          }, 5000);
+        }
       }
     }
   };
@@ -105,16 +114,7 @@ export default function Register() {
                       <a>Login</a>
                     </Link>
                   </p>
-                  {error && (
-                    <span style={{ color: "red", marginTop: "10px" }}>
-                      Something went wrong!
-                    </span>
-                  )}
-                  {passwordError &&(
-                    <span style={{ color: "red", marginTop: "10px" }}>
-                    Password don't match
-                  </span>
-                  )}
+
                 </form>
               </div>
             </div>

@@ -8,95 +8,42 @@
     align-items: center;
     justify-content: space-between;
   }
-  
-  .postAddButton {
-    width: 80px;
-    border: none;
-    padding: 5px;
-    background-color: teal;
-    color: white;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  
-  .postName {
-    font-weight: 600;
-  }
-  
-  .postInfoBottom {
-    margin-top: 10px;
-  }
-  
-  .postInfoItem {
-    width: 150px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .postInfoValue {
-    font-weight: 300;
-  }
-  
   .postBottom {
     padding: 20px;
     margin: 20px;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   }
-  
-  .postForm {
-    display: flex;
-    justify-content: space-between;
+  .postDetail{
+    display: inline;
   }
-  
-  .postFormLeft {
-    display: flex;
-    flex-direction: column;
+  .postImg{
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+
   }
-  
-  .postFormLeft > label {
-    margin-bottom: 10px;
-    color: gray;
+  .postId{
+    margin-top: 10px;
+    font-size: 20px;
+    color: brown;
   }
-  
-  .postFormLeft > input {
-    margin-bottom: 10px;
-    border: none;
-    padding: 5px;
-    border-bottom: 1px solid gray;
+  .postTitle{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bolder
   }
-  
-  .postFormLeft >select{
-    margin-bottom: 10px;
+  .postCategories{
+    margin-top: 10px;
+    font-size: 20px;
+    color: brown;
   }
-  
-  .postUploadImg{
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
-    object-fit: cover;
-    margin-right: 20px;
+  .postAuth{
+    margin-top: 10px;
+    font-size: 20px;
+    color: brown;
   }
-  
-  .postFormRight{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-  }
-  
-  .postUpload{
-    display: flex;
-    align-items: center;
-  }
-  
-  .postButton{
-    border: none;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: darkblue;
-    color:white;
-    font-weight: 600;
-    cursor: pointer;
+  .postDesc{
+    margin-top: 10px;
+    font-size: 20px;
   }

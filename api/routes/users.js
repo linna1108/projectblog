@@ -35,7 +35,7 @@ router.put("/:id",verify, async (req, res) => {
 //DELETE
 router.delete("/:id",verify, async (req, res) => {
   if (req.body.userId === req.params.id || req.user.isAdmin) {
-    try {
+    try { 
       const user = await User.findById(req.params.id);
       try {
         await Post.deleteMany({ username: user.username });
@@ -124,22 +124,60 @@ router.put("/:id/unfollow", async (req, res) => {
   }
 });
 module.exports = router;
+
 //get friends
-// router.get("/friends/:userId", async (req, res) => {
-//   try {
-//     const user = await User.findById(req.params.userId);
-//     const friends = await Promise.all(
-//       user.followings.map((friendId) => {
-//         return User.findById(friendId);
-//       })
-//     );
-//     let friendList = [];
-//     friends.map((friend) => {
-//       const { _id, username, profilePic } = friend;
-//       friendList.push({ _id, username, profilePic });
-//     });
-//     res.status(200).json(friendList)
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+router.get("/friends/:userId", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    const friends = await Promise.all(
+      user.followings.map((friendId) => {
+        return User.findById(friendId);
+      })
+    );
+    let friendList = [];
+    friends.map((friend) => {
+      const { _id, username, profilePic } = friend;
+      friendList.push({ _id, username, profilePic });
+    });
+    res.status(200).json(friendList)
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//get user stats
+router.get("/stats", async(req,res) =>{
+  const today = new Date();
+  const latYear = today.setFullYear(today.setFullYear() - 1);
+
+  try {
+    const data = await User.aggregate([
+      {
+        $project: {
+          month: { $month: "$createdAt" },
+        },
+      },
+      {
+        $group: {
+          _id: "$month",
+          total: { $sum: 1 },
+        },
+      },
+    ]);
+    res.status(200).json(data)
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}); 
+
+// search user
+router.get("/search/:key", async (req, res) => {
+  try{
+    let data = await User.find({
+      $or:[{username:{$regex:req.params.key}}],
+    });
+    res.send(data);
+  }catch(err){
+    res.status(500).json(err);
+  } 
+});

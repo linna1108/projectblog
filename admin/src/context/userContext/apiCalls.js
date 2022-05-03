@@ -1,5 +1,12 @@
 import axios from "axios";
-import { getUsersStart, getUsersSuccess, getUsersFailure } from "./UserActions";
+import {
+  getUsersStart,
+  getUsersSuccess,
+  getUsersFailure,
+  deleteUsersStart,
+  deleteUsersSuccess,
+  deleteUsersFailure,
+} from "./UserActions";
 export const getLists = async (dispatch) => {
   dispatch(getUsersStart());
   try {
@@ -11,5 +18,21 @@ export const getLists = async (dispatch) => {
     dispatch(getUsersSuccess(res.data));
   } catch (err) {
     dispatch(getUsersFailure());
+  }
+};
+
+//delete
+export const deleteUser = async (id, dispatch) => {
+  dispatch(deleteUsersStart());
+  try {
+    await axios.delete("/users/" + id, {
+      headers: {
+        token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+      },
+    });
+    dispatch(deleteUsersSuccess(id));
+    window.location.replace();
+  } catch (err) {
+    dispatch(deleteUsersFailure());
   }
 };

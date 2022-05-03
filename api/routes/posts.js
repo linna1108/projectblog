@@ -47,11 +47,12 @@ router.put("/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 //DELETE POST
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",verify, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (post.username === req.body.username) {
+    if (post.username === req.body.username || req.user.isAdmin) {
       try {
         await post.delete();
         res.status(200).json("Post has been deleted...");
@@ -65,6 +66,7 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 //GET POST
 router.get("/:id", async (req, res) => {
   try {
@@ -74,6 +76,7 @@ router.get("/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 //GET ALL POST
 router.get("/", async (req, res) => {
   const username = req.query.user;
@@ -109,36 +112,29 @@ router.get("/profile/:username", async (req, res) => {
 });
 
 module.exports = router;
+
 //Like a post
-router.put("/:id/like", async (req, res) => {
+router.put("/:id/like",verify, async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
-    if (!post.likes.includes(req.body.userId)) {
-      await post.updateOne({
-        $push: { likes: req.body.userId },
-      });
-      res.status(200).json("The post has been liked");
-    } else {
-      res.status(403).json("you allready like this post");
-    }
-  } catch (err) {
-    res.status(500).json(err);
+		const post = await Post.findById(req.params.id);
+
+		if (post.likes.some((like) => like.user.toString() === req.user.id)) {
+			return res.status(400).json({ error: [{ msg: "Post has been like" }] });
+		}
+		post.likes.unshift({ user: req.user.id });
+		await post.save();
+		res.json(post.likes);
+  }catch (err) {
+    console.log(err.message);
+		if (err.kind == "ObjectId") {
+			res.status(400).json({ msg: "Post not found" });
+			res.status(500).send("Server Error");
+		}
+    
   }
 });
-//unlike a post
-router.put("/:id/unlike", async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-    if (post.likes.includes(req.body.userId)) {
-      await post.updateOne({ $pull: { likes: req.body.userId } });
-      res.status(200).json("The post has been disliked");
-    } else {
-      res.status(403).json("you allready dislike this post");
-    }
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+
+
 //create comment
 router.post("/:id/comments", verify, async (req, res) => {
   try {
@@ -166,6 +162,7 @@ router.post("/:id/comments", verify, async (req, res) => {
     }
   }
 });
+
 //get comment
 router.get("/:id/comments", async (req, res) => {
   try {
@@ -179,6 +176,7 @@ router.get("/:id/comments", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 //delete comment
 router.delete("/:id/comments/:commentId", verify, async (req, res) => {
   try {
@@ -245,10 +243,15 @@ router.put("/:id/comments/:commentId", verify, async (req, res) => {
     }
   }
 });
+
 //search blog
 router.get("/search/:key", async (req, res) => {
-  let data = await Post.find({
-    $or: [{ name: { $regex: req.params.key } }],
-  });
-  res.send(data);
+  try{
+    let data = await Post.find({
+      $or:[{title:{$regex:req.params.key}}],
+    });
+    res.send(data);
+  }catch(err){
+    res.status(500).json(err);
+  } 
 });

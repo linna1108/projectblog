@@ -8,7 +8,6 @@ import About from "./pages/aboutus/Aboutus";
 import Profile from "./pages/profile/Profile";
 
 
-
 import {
 	BrowserRouter as Router,
 	Routes,

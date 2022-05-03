@@ -22,7 +22,7 @@
     cursor: pointer;
   }
   
-  .topRight{
+  .topbarRight{
       display: flex;
       align-items: center;
   }
@@ -58,4 +58,19 @@
       height: 40px;
       border-radius: 50%;
       cursor: pointer;
+  }
+  .searchText{
+    width: 350px;
+    align-items: center;
+    height: 30px;
+    border-radius: 5px;
+		box-sizing: border-box;
+		outline: none;
+  }
+  .searchbtn{
+    height: 30px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background: rgb(5, 66, 157);
+    color: white;
   }

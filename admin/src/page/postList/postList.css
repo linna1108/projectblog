@@ -15,14 +15,11 @@
     padding: 5px;
   }
 
-.postListEdit{
-    border: none;
-    border-radius: 10px;
-    padding: 5px 10px;
-    background-color: #3bb077;
-    color: white;
+.postListDetail{
     cursor: pointer;
-    margin-right: 20px;
+    color: #3bb077;
+    margin-top: 20px;
+    margin-left: 10px;    
 }
 
 .postListDelete{

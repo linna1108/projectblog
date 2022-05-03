@@ -1,17 +1,26 @@
 import "./userList.css";
 import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@mui/icons-material";
+import { DeleteOutline,AccountBox } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect,useState} from "react";
 import { UserContext } from "../../context/userContext/UserContext";
 import { getLists } from "../../context/userContext/apiCalls";
+import { deleteUser } from "../../context/userContext/apiCalls";
+
 
 export default function UserList() {
   const { users, dispatch } = useContext(UserContext);
-  const PF = "http://localhost:5000/images/"
+  const PF = "http://localhost:5000/images/";
+
+  
   useEffect(() => {
-    getLists(dispatch); 
+    getLists(dispatch);
   }, [dispatch]);
+
+  const handleDelete = (id) => {
+    deleteUser(id, dispatch);
+    window.location.replace();
+  };
 
   const columns = [
     { field: "_id", headerName: "ID", width: 100 },
@@ -27,7 +36,11 @@ export default function UserList() {
       renderCell: (params) => {
         return (
           <div className="userListItem">
-            <img className="userListImg" src={PF + params.row.profilePic} alt="" />
+            <img
+              className="userListImg"
+              src={PF + params.row.profilePic}
+              alt=""
+            />
           </div>
         );
       },
@@ -47,11 +60,11 @@ export default function UserList() {
             <Link
               to={{ pathname: "/user/" + params.row._id, user: params.row }}
             >
-              <button className="userListEdit">Edit</button>
+              <AccountBox className="userListEdit" />
             </Link>
             <DeleteOutline
               className="userListDelete"
-              // onClick={() => handleDelete(params.row._id)}
+              onClick={() => handleDelete(params.row._id)}
             />
           </>
         );

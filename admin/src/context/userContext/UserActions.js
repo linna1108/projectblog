@@ -10,16 +10,16 @@ export const getUsersStart = () => ({
   export const getUsersFailure = () => ({
     type: "GET_USERS_FAILURE",
   });
-  export const updateUserStart = () => ({
-    type: "UPDATE_USER_START",
+  export const deleteUsersStart = () => ({
+    type: "DELETE_USER_START",
   });
   
-  export const updateUserSuccess = (user) => ({
-    type: "UPDATE_USER_SUCCESS",
-    payload: user,
+  export const deleteUsersSuccess = (id) => ({
+    type: "DELETE_USER_SUCCESS",
+    payload: id,
   });
   
-  export const updateUserFailure = () => ({
-    type: "UPDATE_USER_FAILURE",
+  export const deleteUsersFailure = () => ({
+    type: "DELETE_USER_FAILURE",
   });
   

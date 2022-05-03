@@ -6,25 +6,27 @@ import { useLocation } from "react-router";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
-import { ThumbUpAltOutlined } from "@mui/icons-material";
+import Confirm from "../confirm/Confirm";
 
 export default function SinglePost() {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const [post, setPost] = useState({});
   const PF = "http://localhost:5000/images/";
-  const { user } = useContext(Context);
+  const { user} = useContext(Context);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [categories, setCategories] = useState("");
   const [updateMode, setUpdateMode] = useState(false);
   const [file, setFile] = useState("");
-  const [like, setLike] = useState(0);
+  const [likes, setLikes] = useState(0);
   const [success, setSuccess] = useState("");
-  const [comment, setComment] = useState([]);
+	const [error, setError] = useState("");
+  const [confirm, setConfirm] = useState({
+    message:"",
+    isLoading:false
+  });
 
-
-  
   useEffect(() => {
     const getPost = async () => {
       const res = await axios.get("/posts/" + path);
@@ -36,27 +38,27 @@ export default function SinglePost() {
     getPost();
   }, [path]);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await axios.get(`/post/${post._id}/comments`);
-        setComment(res.data);
-      } catch (error) {}
-    };
-    fetchPosts();
-  }, []);
-
+  
   const handleDelete = async () => {
-    try {
+    setConfirm({
+      message:"Do you delete post? ",
+      isLoading:true
+    })
+  };
+  const confirmDelete = async()=>{
+  try {
       await axios.delete(`/posts/${post._id}`, {
-        data: { username: user.username},
+        data: { username: user.username },
       });
       window.location.replace("/");
     } catch (err) {}
-  };
+  }
+    
+  
+
 
   const handleUpdate = async () => {
-    
+
     const updatePost = {
       username: user.username,
       title,
@@ -78,23 +80,41 @@ export default function SinglePost() {
       await axios.put(`/posts/${post._id}`, updatePost);
       setUpdateMode(false);
       window.location.reload();
+  
     } catch (err) {}
   };
 
+
   const likeHandler = async () => {
-    const newLike = {
-      user: user._id,
+    const config = {
+      headers: {
+        token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+      },
     };
-    try {
-      const res = await axios.put(`/posts/${post._id}/like`, { newLike });
-      setLike(res.data);
-      setPost({ ...post, like });
-      window.location.reload();
-      return setSuccess("Post have been liked");
-    } catch (err) {}
+    const newLike ={
+      user: user._id,
+    }
+    try{
+      const res = await axios.put(`/posts/${post._id}/like`,{newLike},config);
+      setLikes(res.data);
+			setPost({ ...post, likes });
+
+			window.location.reload();
+      return setSuccess("Post Liked");
+    }catch (err) {
+			const error = err.response.data;
+			if (error) {
+				setTimeout(() => {
+					setError("");
+          setSuccess("");
+				}, 5000);
+				return setError(error.msg);
+			}
+		}
   };
 
   return (
+    <>
     <div className="singlePostDetails">
       <div className="singlePostDetailsWrapper">
         {!updateMode ? (
@@ -158,16 +178,20 @@ export default function SinglePost() {
           <h1 className="singlePostTitle">
             {title}
             {post.username === user?.username && (
-              <div className="singlePostEdit">
-                <i
-                  className="singlePostIcon far fa-edit"
-                  onClick={() => setUpdateMode(true)}
-                ></i>
-                <i
-                  className="singlePostIcon far fa-trash-alt"
-                  onClick={handleDelete}
-                ></i>
-              </div>
+              <>
+                <div className="singlePostEdit">
+                  <i
+                    className="singlePostIcon far fa-edit"
+                    onClick={() => setUpdateMode(true)}
+                  ></i>
+                  <i
+                    className="singlePostIcon far fa-trash-alt"
+                    onClick={handleDelete}
+                  >
+                  </i>
+                </div>
+              {confirm.isLoading && <Confirm message={confirm.message} onConfirm ={confirmDelete}/>}
+              </>
             )}
           </h1>
         )}
@@ -184,18 +208,17 @@ export default function SinglePost() {
         )}
         {updateMode ? (
           <button className="singlePostButton" onClick={handleUpdate}>
-            Update 
+            Update
           </button>
         ) : (
           <>
             <hr className="line" />
             <div className="singlePostReactions">
-              <div className="leftReaction">
-                <i
+              <div className="leftReaction">      
+                  <i
                   className=" likeReactionThumb far fa-thumbs-up"
                   onClick={likeHandler}
-                />
-
+                  />
                 <span className="likesCount">
                   {post.likes?.length} people likes{" "}
                 </span>
@@ -210,27 +233,29 @@ export default function SinglePost() {
         )}
       </div>
       {!updateMode && (
-				<>
-					<CommentForm post={post} setPost={setPost} user={user} />
-					{post.comments?.length > 0 ? (
-						post.comments
-							.map((comment) => (
-								<Comment
-									key={comment._id}
-									comment={comment}
-									post={post}
-									user={user}
-									setPost={setPost}
-								/>
-							)
-)							.reverse()
-					) : (
-						<h2 style={{ textAlign: "center", opacity: "0.6" }}>
-							No comments for this post
-						</h2>
-					)}
-				</>
-			)}
-      </div>
+        <>
+          <CommentForm post={post} setPost={setPost} user={user} />
+          {post.comments?.length > 0 ? (
+            post.comments
+              .map((comment) => (
+                <Comment
+                  key={comment._id}
+                  comment={comment}
+                  post={post}
+                  user={user}
+                  setPost={setPost}
+                />
+              ))
+              .reverse()
+          ) : (
+            <h2 style={{ textAlign: "center", opacity: "0.6" }}>
+              No comments for this post
+            </h2>
+          )}
+        </>
+      )}
+    </div>
+   
+    </>
   );
 }

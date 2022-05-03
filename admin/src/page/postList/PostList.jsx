@@ -1,23 +1,33 @@
 import "./postList.css";
 import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@mui/icons-material";
+import { AccountBox, DeleteOutline } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { PostContext } from "../../context/postContext/PostContext";
-import { getPosts } from "../../context/postContext/apiCalls";
+import { deletePost, getPosts } from "../../context/postContext/apiCalls";
 
 export default function PostList() {
   const { posts, dispatch } = useContext(PostContext);
   const PF = "http://localhost:5000/images/"
+
   useEffect(() => {
     getPosts(dispatch); 
   }, [dispatch]);
 
+  const handleDelete = (id) => {
+    deletePost(id, dispatch);
+  };
+
   const columns = [
-    { field: "id", headerName: "ID", width: 100 },
+    { field: "_id", headerName: "ID", width: 100 },
     {
-      field: "title",
+      field: "title", 
       headerName: "Title",
+      width: 200,
+    },
+    {
+      field: "categories",
+      headerName: "Category",
       width: 150,
     },
     {
@@ -35,7 +45,7 @@ export default function PostList() {
     {
       field: "createdAt",
       headerName: "Date",
-      width: 200,
+      width: 150,
     },
     {
       field: "action",
@@ -47,11 +57,11 @@ export default function PostList() {
             <Link
               to={{ pathname: "/post/" + params.row._id, post: params.row }}
             >
-              <button className="userListEdit">Edit</button>
+            <AccountBox className="postListDetail"/>
             </Link>
             <DeleteOutline
-              className="userListDelete"
-              // onClick={() => handleDelete(params.row._id)}
+              className="postListDelete" 
+              onClick={() => handleDelete(params.row._id)}
             />
           </>
         );

@@ -60,6 +60,7 @@ export default function Messager() {
     getConversations();
   }, [user._id]);
 
+
   useEffect(() => {
     const getMessages = async () => {
       try {
@@ -112,7 +113,7 @@ export default function Messager() {
               <hr className="border"></hr>                      
               {conversations.map((c) => (
                 <div onClick={() => setCurrentChat(c)}>
-                  <Conversation conversation={c} currentUser={user} />
+                  <Conversation conversation={c} currentUser={user}  />
                 </div>
               ))}
             </div>
@@ -124,7 +125,7 @@ export default function Messager() {
                   <div className="chatBoxTop">
                     {messages.map((m) => (
                       <div ref={scrollRef}>
-                        <Message message={m} own={m.sender === user._id} />
+                        <Message message={m} own={m.sender === user._id } currentUser={user._id}   />
                       </div>
                     ))}
                   </div>

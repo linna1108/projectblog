@@ -2,23 +2,37 @@ import React from "react";
 import "./topbar.css";
 import { Logout} from "@mui/icons-material";
 import { Context } from "../../context/authContext/Context";
-import { useContext } from "react";
+import { useContext,useState } from "react";
 import {Link} from "react-router-dom"
+import { getLists } from "../../context/userContext/apiCalls";
+import axios from "axios";
 
 export default function Topbar() {
   const {dispatch} = useContext(Context);
-
+  const [searchText, setSearchText] = useState('');
   const handleLogout = () =>{
     dispatch({type:"LOGOUT"})
   }
+  const handleSearch = async () => {
+    try {
+      const res = await axios.get(`/users/search/${searchText}`);
+      getLists(dispatch);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="topbar">
       <div className="topbarWrapper">
-        <div className="topLeft">
+        <div className="topbarLeft">
           <span className="logo">Admin Blog</span>
         </div>
-        <div className="topRight">
+        <div className="topbarCenter">
+          <input className="searchText" placeholder="Search user" value={searchText} onChange={(e) => setSearchText(e.target.value)}></input>
+          <button className="searchbtn" onClick={handleSearch}>Search</button>
+        </div>
+        <div className="topbarRight">
           <img
             src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
             alt=""

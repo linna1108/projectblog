@@ -2,18 +2,16 @@ import "./sidebar.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import {Search} from "@mui/icons-material"
 
-export default function Sidebar() {
+export default function Sidebar({ post }) {
   const [posts, setPosts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage] = useState(1);
   const [postsPerPage] = useState(6);
 
   //get current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -26,17 +24,14 @@ export default function Sidebar() {
     };
     fetchPosts();
   });
+  const handleSearch = async () => {
+    try {
+      await axios.get(`/posts/find/`);
+    } catch (err) {}
+  };
 
   return (
     <div className="sidebar">
-       <div className="sidebarItemSearch">
-          
-          <input
-            placeholder="Search blog"
-            className="searchInput"
-          />
-           <Search className="searchIcon" />
-        </div>
       <div className="sidebarItem">
         <span>RECENT POSTS</span>
         <hr />
@@ -51,21 +46,31 @@ export default function Sidebar() {
           ))}
         </div>
       </div>
+
       <div className="sidebarItem1">
         <span>SOCIAL NETWORK</span>
         <div className="topIcon">
           <i className="topIcon fab fa-facebook-square"></i>
           <i className="topIcon fab fa-youtube-square"></i>
-
         </div>
       </div>
+
       <div className="sidebarItem2">
-       <img className="iconAds" src="https://m.economictimes.com/thumb/msid-54454320,width-1200,height-900,resizemode-4,imgsize-87215/online-job-market-to-double-by-2020-survey.jpg"/>
-       <p className="titleAds">eJob Văn Lang đưa mọi người đến với những công ty hot hiện nay</p>
+        <img
+          className="iconAds"
+          src="https://m.economictimes.com/thumb/msid-54454320,width-1200,height-900,resizemode-4,imgsize-87215/online-job-market-to-double-by-2020-survey.jpg"
+        />
+        <a href="https://ejob.vanlanguni.edu.vn/" className="link">
+        <p className="titleAds">
+          eJob Văn Lang đưa mọi người đến với những công ty hot hiện nay
+        </p></a>
       </div>
       <div className="sidebarItem2">
-       <img className="iconAds" src="https://snipstock.com/assets/cdn/png/e4060e919c83110564449038922bf75b.png"/>
-       <p className="titleAds">Tạo CV hay, đẹp </p>
+        <img
+          className="iconAds"
+          src="https://snipstock.com/assets/cdn/png/e4060e919c83110564449038922bf75b.png"
+        />
+        <p className="titleAds">Tạo CV hay, đẹp </p>
       </div>
     </div>
   );

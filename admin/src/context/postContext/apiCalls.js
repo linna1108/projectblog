@@ -1,5 +1,12 @@
 import axios from "axios";
-import { getPostsStart, getPostsSuccess, getPostsFailure } from "./PostActions";
+import {
+  getPostsStart,
+  getPostsSuccess,
+  getPostsFailure,
+  deletePostFailure,
+  deletePostStart,
+  deletePostSuccess,
+} from "./PostActions";
 
 export const getPosts = async (dispatch) => {
   dispatch(getPostsStart());
@@ -12,5 +19,21 @@ export const getPosts = async (dispatch) => {
     dispatch(getPostsSuccess(res.data));
   } catch (err) {
     dispatch(getPostsFailure());
+  }
+};
+
+//delete
+export const deletePost = async (id, dispatch) => {
+  dispatch(deletePostStart());
+  try {
+    await axios.delete("/posts/" + id, {
+      headers: {
+        token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+      },
+    });
+    dispatch(deletePostSuccess(id));
+    window.location.replace();
+  } catch (err) {
+    dispatch(deletePostFailure());
   }
 };

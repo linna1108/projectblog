@@ -19,7 +19,7 @@ export default function Settings() {
     e.preventDefault();
     dispatch({ type: "UPDATE_START" });
     const updatedUser = {
-      userId: user._id,
+      userId: user._id, 
       username,
       email,
       password,
@@ -55,6 +55,7 @@ export default function Settings() {
   return (
     <>
     <Topbar/>
+   
     <div className="settings">
       <div className="settingsWrapper">
         <div className="settingsbox">

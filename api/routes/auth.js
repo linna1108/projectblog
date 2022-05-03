@@ -6,33 +6,45 @@ const { check, validationResult } = require("express-validator");
 
 //REGISTER
 router.post(
-  "/register",
-  [
-    check("username", "Username is required").notEmpty(),
-    check("email", "Please include a valid email").isEmail(),
-    check("password", "Please enter password of 6 or more characters").isLength(
-      { min: 6 }
-    ),
-  ],
-  async (req, res) => {
+	"/register",
+	[
+		check("username", "Username is required").notEmpty(),
+		check("email", "Please include a valid email").isEmail(),
+		check("password", "Please enter password of 6 or more characters").isLength(
+			{ min: 6 }
+		), 
+	],
+	async (req, res) => {
     const errors = validationResult(req);
-    const newUser = new User({
-      username: req.body.username,
-      email: req.body.email,
-      password: CryptoJS.AES.encrypt(
-        req.body.password,
-        process.env.SECRET_KEY
-      ).toString(),
-    });
-    try {
-  
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ errors: errors.array() });
+		}
 
-      const user = await newUser.save();
-      res.status(201).json(user);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  }
+		const { username, email, password } = req.body;
+		try {
+			let user = await User.findOne({ email });
+
+			if (user) {
+				return res.status(400).json({
+					errors: [
+						{ msg: `User with ${email} already exists in the database` },
+					],
+				});
+			}
+
+			user = new User({
+				username,
+				email,
+				password,
+			});
+			await user.save();
+
+			res.status(201).json((user._id));
+		} catch (err) {
+			console.error(err.message);
+			res.status(500).send("Server Error");
+		} 
+	}
 );
 
 //LOGIN

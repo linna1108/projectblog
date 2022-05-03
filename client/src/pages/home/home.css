@@ -71,3 +71,31 @@
 .order_online_fixed{
 	position: fixed; bottom: 100px;
     right: 24px; line-height: 60px; z-index: 99; }
+
+	.homeItemSearch{
+		display: flex;
+		margin-top: 27px;
+		margin-left: 400px;
+		justify-content: center;
+		padding: 10px 0;
+		letter-spacing: 2px;
+		background: white;
+		height: 50px;
+		width: 400px;
+		border-radius: 40px;
+		border-style: solid;
+	  }
+	  .searchIcon {
+	  font-size: 30px;
+	  margin-right: 2px;
+	   
+	  }
+	  .searchInput{
+		width: 350px;
+		margin-right: 10px;
+		margin-left: 5px;
+		border-style: none;
+		box-sizing: border-box;
+		outline: none;
+	  }
+	  

@@ -10,12 +10,12 @@ export default function Comment({ comment, post, setPost }) {
   const [commentEdit, setCommentEdit] = useState({});
   const { user } = useContext(Context);
 
-  const config = {
-    headers: {
-      token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-    },
-  };
   const handleUpdate = async () => {
+    const config = {
+      headers: {
+        token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+      },
+    };
     const editedComment = {
       user: user._id,
       desc,
@@ -30,55 +30,59 @@ export default function Comment({ comment, post, setPost }) {
     window.location.reload();
   };
   const handleDelete = async () => {
+    const config = {
+      headers: {
+        token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+      },
+    };
     try {
       await axios.delete(`/posts/${post._id}/comments/${comment._id}`, config);
       window.location.reload();
-    } catch (err) {
-    }
+    } catch (err) {}
   };
   return (
-    <> 
-			<div className="commentWrapper">
-				<div className="commentTop">
-					<div className="commentUserInfo">
-						<span className="commentName">{comment.username}</span>
-					</div>
-					{isUpdate ? (
-						<textarea
-							defaultValue={comment.desc}
-							className="commentUpdate"
-							onChange={(e) => setDesc(e.target.value)}
-						></textarea>
-					) : (
-						<p className="commentItem">{comment.desc} </p>
-					)}
-				</div>
-				<div className="commentBottom">
-					{!isUpdate && (
-						<span className="commentDate">{format(comment.date)}</span>
-					)}
-					{user && user.username === comment.username && (
-						<div className="reaction">
-							{isUpdate ? (
-								<button className="commentUpdateBtn  " onClick={handleUpdate}>
-									Update
-								</button>
-							) : (
-								<>
-									<span
-										className="commentEdit far fa-edit"
-										onClick={() => setIsUpdate(true)}
-									>
-									</span>
-									<span className="commentDelete far fa-trash-alt" onClick={handleDelete}>
-
-									</span>
-								</>
-							)}
-						</div>
-					)}
-				</div>
-			</div>
-		</>
+    <>
+      <div className="commentWrapper">
+        <div className="commentTop">
+          <div className="commentUserInfo">
+            <span className="commentName">{comment.username}</span>
+          </div>
+          {isUpdate ? (
+            <textarea
+              defaultValue={comment.desc}
+              className="commentUpdate"
+              onChange={(e) => setDesc(e.target.value)}
+            ></textarea>
+          ) : (
+            <p className="commentItem">{comment.desc} </p>
+          )}
+        </div>
+        <div className="commentBottom">
+          {!isUpdate && (
+            <span className="commentDate">{format(comment.date)}</span>
+          )}
+          {user && user.username === comment.username && (
+            <div className="reaction">
+              {isUpdate ? (
+                <button className="commentUpdateBtn  " onClick={handleUpdate}>
+                  Update
+                </button>
+              ) : (
+                <>
+                  <span
+                    className="commentEdit far fa-edit"
+                    onClick={() => setIsUpdate(true)}
+                  ></span>
+                  <span
+                    className="commentDelete far fa-trash-alt"
+                    onClick={handleDelete}
+                  ></span>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   );
 }

@@ -26,7 +26,6 @@ export default function Footer() {
               </div>
             </div>
         </div>
-         <div className="footer-1">mkemfoem</div>
     </div>
   )
 }

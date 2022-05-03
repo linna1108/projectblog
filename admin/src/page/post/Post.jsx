@@ -1,44 +1,31 @@
-import { Link } from "react-router-dom";
+
 import "./post.css";
-import Chart from "../../components/chart/Chart"
-import {postData} from "../../dummyData"
-import { Publish } from "@mui/icons-material";
+import { useLocation } from "react-router-dom";
 
 export default function Post() {
+  const location = useLocation();
+  const post = location.post;
+  const PF = "http://localhost:5000/images/";
   return (
     <div className="post">
       <div className="postTitleContainer">
-        <h1 className="postTitle">Blog</h1>
-       
+        <h1 className="postTop">Post detail</h1>
       </div>
-     
+
       <div className="postBottom">
-          <form className="postForm">
-              <div className="postFormLeft">
-                  <label>post Name</label>
-                  <input type="text" placeholder="Apple AirPod" />
-                  <label>In Stock</label>
-                  <select name="inStock" id="idStock">
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
-                  </select>
-                  <label>Active</label>
-                  <select name="active" id="active">
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
-                  </select>
-              </div>
-              <div className="postFormRight">
-                  <div className="postUpload">
-                      <img src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="postUploadImg" />
-                      <label for="file">
-                          <Publish/>
-                      </label>
-                      <input type="file" id="file" style={{display:"none"}} />
-                  </div>
-                  <button className="postButton">Update</button>
-              </div>
-          </form>
+        <div className="postDetail">         
+            <img className="postImg"
+            src = {PF + post.photo}
+            alt=""
+            />
+          <div className="postTitle">
+            {post.title}
+          </div>
+          <div className="postId">Id: {post._id}</div>
+          <div className="postCategories">Category: {post.categories}</div>
+          <div className="postAuth">Post by: {post.username} on {post.createdAt}</div>
+          <div className="postDesc">{post.desc}</div>
+        </div>
       </div>
     </div>
   );

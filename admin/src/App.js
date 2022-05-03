@@ -5,10 +5,10 @@ import Home from "./page/home/Home";
 import { BrowserRouter as Router, Switch, Route,Redirect } from "react-router-dom";
 import UserList from "./page/userList/UserList";
 import User from "./page/user/User";
-import NewUser from "./page/newUser/NewUser";
+
 import PostList from "./page/postList/PostList";
 import Post from "./page/post/Post";
-import NewPost from "./page/newPost/NewPost";
+
 import Login from "./page/login/Login";
 import { Context } from "./context/authContext/Context";
 import {useContext} from "react"
@@ -35,18 +35,14 @@ function App() {
                 <Route path="/user/:userId">
                   <User />
                 </Route>
-                <Route path="/newUser">
-                  <NewUser />
-                </Route>
+               
                 <Route path="/posts">
                   <PostList />
                 </Route>
                 <Route path="/post/:postId">
                   <Post />
                 </Route>
-                <Route path="/newpost">
-                  <NewPost />
-                </Route>
+               
               </Switch>
             </div>
           </>

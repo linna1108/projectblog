@@ -1,6 +1,6 @@
 import Sidebar from "../../components/sidebar/Sidebar";
 import Topbar from "../../components/topbar/Topbar";
-
+import Footer from "../../components/footer/Footer";
 import SinglePost from "../../components/singlePost/SinglePost";
 import "./single.css"
 

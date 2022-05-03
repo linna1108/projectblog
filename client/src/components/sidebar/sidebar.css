@@ -4,7 +4,7 @@
     
 }
 .sidebarItem{   
-  margin: 10px 40px 0 -27px;
+  margin: 40px 40px 0 -27px;
   background-color: rgb(255, 255, 255);
   text-align: center;
   padding: 10px 0;
@@ -66,21 +66,4 @@ hr{
   margin-left: 5px;
   margin-top: 13px;
 }
-.sidebarItemSearch{
-  margin: 40px 40px 0 -27px;
-  background-color: rgb(255, 255, 255);
-  text-align: center;
-  padding: 10px 0;
-  box-sizing: border-box;
-  letter-spacing: 2px;
-  border-radius: 10px;
-}
-.searchIcon {
-font-size: 25px;
- 
-}
-.searchInput{
-  width: 200px;
-  margin-right: 10px;
-  margin-left: 5px;
-}
+  
