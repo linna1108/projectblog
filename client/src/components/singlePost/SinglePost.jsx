@@ -1,5 +1,6 @@
 import CommentForm from "../../components/formcomments/CommentForm";
 import Comment from "../../components/comments/Comment";
+
 import "./singlePost.css";
 import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router";
@@ -255,7 +256,7 @@ export default function SinglePost() {
         </>
       )}
     </div>
-   
+    
     </>
   );
 }

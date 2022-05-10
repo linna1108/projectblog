@@ -19,27 +19,25 @@ router.post(
 		if (!errors.isEmpty()) {
 			return res.status(400).json({ errors: errors.array() });
 		}
-
-		const { username, email, password } = req.body;
-		try {
-			let user = await User.findOne({ email });
-
-			if (user) {
+		const newUser = new User({
+			username: req.body.username,
+			email: req.body.email,
+			password: CryptoJS.AES.encrypt(
+			  req.body.password,
+			  process.env.SECRET_KEY
+			).toString(),
+		  });
+		try{	
+			const newEmail = await User.findOne({ email: req.body.email })
+			if(newEmail){
 				return res.status(400).json({
 					errors: [
-						{ msg: `User with ${email} already exists in the database` },
+						{ msg: `Email already exists in the database` },
 					],
 				});
 			}
-
-			user = new User({
-				username,
-				email,
-				password,
-			});
-			await user.save();
-
-			res.status(201).json((user._id));
+			const user = await newUser.save();                
+			res.status(201).json(user);	
 		} catch (err) {
 			console.error(err.message);
 			res.status(500).send("Server Error");

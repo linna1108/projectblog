@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link  } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./register.css";
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -8,8 +8,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [error, setError] = useState("");
-
+  const [errors, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,9 +16,9 @@ export default function Register() {
       setPasswordError("");
       setConfirmPassword("");
       setTimeout(() => {
-				setError("");
-			}, 5000);
-			return setError("Passwords do not match");
+        setError("");
+      }, 5000);
+      return setError("Passwords do not match");
     } else {
       try {
         const res = await axios.post("/auth/register", {
@@ -68,7 +67,8 @@ export default function Register() {
                       type="text"
                       placeholder="Enter your username...."
                       onChange={(e) => setUsername(e.target.value)}
-                    />{" "}
+                    />
+                    {errors.username && <p>{errors.username}</p>}
                   </p>
 
                   <p class="content-item">
@@ -109,12 +109,8 @@ export default function Register() {
                     Register
                   </button>
                   <p class="messageLogin">
-                   Already have an account? 
-                    <Link className="link" to="/login">
-                      <a>Login</a>
-                    </Link>
+                    Already have an account? <a  href="/login" >Login</a>
                   </p>
-
                 </form>
               </div>
             </div>

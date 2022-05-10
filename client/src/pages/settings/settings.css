@@ -15,7 +15,7 @@
     margin-top: 50px;
     width: 550px;
     height:500px;
-    background-color: #dfdfdfb5;
+    background-color: #f4f4f4dc;
   }
   
   .settingsTitle {
@@ -68,6 +68,8 @@
   .settingsForm > label {
     font-size: 17px;
     margin-top: 10px;
+    color: black;
+    font-weight: 600;
   }
   
   .settingsForm > input {

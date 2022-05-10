@@ -5,32 +5,31 @@ const verify = require("../verifyToken");
 const CryptoJS = require("crypto-js");
 
 //UPDATE
-router.put("/:id",verify, async (req, res) => {
-  if (req.user.id === req.params.id || req.user.isAdmin) {
+router.put("/:id",verify, async(req,res) => {
+  try{
+    const user = await User.findById(req.user.id);
+  if (!user) {
+    res.status(404).json({ msg: "User not found" });
+  }
+    user.username = req.body.username || user.username;
+		user.email = req.body.email || user.email;
+		user.profilePic= req.body.profilePic|| user.profilePic;
     if (req.body.password) {
       req.body.password = CryptoJS.AES.encrypt(
         req.body.password,
         process.env.SECRET_KEY
       ).toString();
     }
-    try {
-      const updateUser = await User.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: req.body,
-        },
-        {
-          new: true,
-        }
-      );
-      res.status(200).json(updateUser);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  } else {
-    res.status(400).json("You can update only your account");
+    const upDatedUser = await user.save();
+		res.json(upDatedUser);
+  }catch(err){
+    console.log(err.message);
+		res.status(500).send("Server Error");
   }
+  
 });
+
+
 
 //DELETE
 router.delete("/:id",verify, async (req, res) => {

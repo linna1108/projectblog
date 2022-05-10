@@ -71,10 +71,7 @@ export default function Login() {
                     Login
                   </button>
                   <p class="messageLogin">
-                    Not registered?
-                    <Link className="link" to="/register">
-                      <a>Create an account</a>
-                    </Link>
+                    Not registered? <a href="/register">Create an account</a>
                   </p>
                 </form>
               </div>

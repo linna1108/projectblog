@@ -5,7 +5,7 @@ import SinglePost from "../../components/singlePost/SinglePost";
 import "./single.css"
 
 export default function Single({user}) {
-   return (
+   return ( 
      <>
      <Topbar/>		
 			<div className="container">
@@ -14,7 +14,7 @@ export default function Single({user}) {
 					<Sidebar />			
 				</div>
 			</div>
-		
+	<Footer/>
     </>
 	);
 };

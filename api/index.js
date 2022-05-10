@@ -19,9 +19,9 @@ app.use("/images", express.static("images"));
 
 mongoose
 .connect(process.env.MONGO_URL,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex:true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
    
 })
 

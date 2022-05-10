@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="footer">
             <div className="footerContainer">
               <div className="footerContainer-1">
-               <img className="logofooter" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjbF-9uC3Nv5u4qyYe69iHT2CoN6A4K9kOpO5CAYhfxBV5M_e7VSkxy-WoIO4xZy-FYBM0AEhM-Un2JrZ6HrnGmHIhZyHtyZsI8SXz3DkuTL2VQQUOJZySZ-ltzTIxXoOUS3Bsu5Zc9jkvTY83NxPYjXf1E8LxEpoGG-N3OW0pnK1e7uzIZ6GH8vFOUcw/s16000/3.png?fbclid=IwAR1wHVqOPU59iQeoSSyyol3004qveeqNaSWsAAsAkD0WLT213Jn0R97JM6g"></img>
+               <img className="logofooter" src = "https://i.imgur.com/okiHypt.png" ></img>
               </div>
               <div className="footerContainer-2">
               <h4>DANH MỤC KHÁC</h4>

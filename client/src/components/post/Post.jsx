@@ -15,17 +15,20 @@ export default function Post({ post }) {
           )}
           <div className="postInfo">
             <label className="chip">{post.categories}</label>
-            <h3 className="postTitle">{post.title}</h3>
+            <Link to={`/post/${post._id}`} className="link">
+              <h3 className="postTitle">{post.title}</h3>
+            </Link>
             <div className="postDesc">
               <p>{post.desc}</p>
             </div>
             <footer>
-              <div className="post-author">               
-                <div>                 
-                  <span className="postAuth">Publish by: 
-                  <Link to={`/profile/${post.username}`} className='link'>
-                     {post.username}
-                  </Link>
+              <div className="post-author">
+                <div>
+                  <span className="postAuth">
+                    Publish by:
+                    <Link to={`/profile/${post.username}`} className="link">
+                      {post.username}
+                    </Link>
                   </span>
                   <p className="postDate">
                     {new Date(post.createdAt).toDateString()}
