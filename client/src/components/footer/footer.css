@@ -1,19 +1,20 @@
 .footer{
 	padding-bottom: 0.5rem;    
-    background-image: url("https://www.vanlanguni.edu.vn/images/vlu-header-footer.jpg");
-    background-size: cover;
+    background: linear-gradient(rgba(58, 58, 58, 0.587), rgba(48, 47, 47, 0.8)), url("https://www.vanlanguni.edu.vn/images/vlu-header-footer.jpg");
+    
     margin-top: 20px;
     
 }
 .footerContainer{
     width: 100%;
-    color: white;
+    color: white; 
     font-size: 18px;
     display: flex;
     flex-wrap: wrap;
 	justify-content: center;
     margin: 0 auto; 
 }
+
 .footerContainer-1{
     width: 35%;
     padding: 0 30px;
@@ -31,13 +32,17 @@
     padding: 0 76px;
     text-align  : center;
 }
+
 .footerContainer-3{
     margin-top: 32px;
     width: 33%;
     padding: 0 1px;
 }
 .footerContainer h4 {
-    color: rgb(255, 255, 255);
+    color: #adaeb0;
+    font-weight: 600;
+    font-size: 1.37rem;
+
 }
 .footerContainer ul {
     list-style: none;
@@ -47,7 +52,7 @@
     display:grid;
 }
 .footerContainer a{
-    color: rgb(0, 0, 0);
+    color: white;
     text-decoration: none;
     font-size: 15px;
     font-weight: 600;
@@ -56,7 +61,7 @@
 .footerContainer p{
     font-size: 15px;
     margin-top: 10px;
-    color: rgb(0, 0, 0);
+    color: white;
     font-weight: 600;
 
 }

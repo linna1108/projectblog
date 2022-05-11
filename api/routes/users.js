@@ -12,7 +12,6 @@ router.put("/:id",verify, async(req,res) => {
     res.status(404).json({ msg: "User not found" });
   }
     user.username = req.body.username || user.username;
-		user.email = req.body.email || user.email;
 		user.profilePic= req.body.profilePic|| user.profilePic;
     if (req.body.password) {
       req.body.password = CryptoJS.AES.encrypt(

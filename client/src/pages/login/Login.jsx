@@ -33,7 +33,7 @@ export default function Login() {
                 <div class="icon-food"></div>
               </div>
               <h1 class="title">BLOG ITLIFE</h1>
-              <div class="slogan">We are one</div>
+              <div class="slogan"></div>
             </div>
           </div>
           <div class="signup-form ">

@@ -57,7 +57,7 @@ export default function CommentForm({ post, setPost }) {
           onChange={(e) => setDesc(e.target.value)}
         ></textarea>
         <button className="commentBtn" type="submit">
-          Submit
+          Send
         </button>
       </form>
     </div>
