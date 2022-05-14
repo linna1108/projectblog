@@ -24,19 +24,19 @@ export default function Post({ post }) {
             <footer>
               <div className="post-author">
                 <div>
-                  <span className="postAuth">
+                  <p className="postAuth">
                     Publish by:
                     <Link to={`/profile/${post.username}`} className="link">
                       {post.username}
                     </Link>
-                  </span>
+                  </p>
                   <p className="postDate">
                     {new Date(post.createdAt).toDateString()}
                   </p>
                 </div>
               </div>
               <Link
-                to={`/post/${post._id}`}
+                to={`/post/${post._id}`} 
                 className="show fa-solid fa-arrow-right"
               ></Link>
             </footer>

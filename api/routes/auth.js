@@ -30,7 +30,7 @@ router.post(
 		try{	
 			const newEmail = await User.findOne({ email: req.body.email })
 			if(newEmail){
-				return res.status(400).json({
+				return res.status(400).send({
 					errors: [
 						{ msg: `Email already exists in the database` },
 					],
@@ -59,13 +59,13 @@ router.post(
     try {
       const user = await User.findOne({ email: req.body.email });
       if (!user) {
-        return res.status(401).json("Wrong password or username!");
+        return res.status(401).send({error: "Wrong password or username!"});
       }
 
       const bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
       const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
       if (originalPassword !== req.body.password) {
-        return res.status(401).json("Wrong password or username!");
+        return res.status(401).send({error : "Wrong password or username!"});
       }
       const accessToken = jwt.sign(
         { id: user._id, isAdmin: user.isAdmin },

@@ -9,8 +9,11 @@ import { fontSize } from "@mui/system";
 export default function Settings() {
   const [file, setFile] = useState("");
   const [username, setUsername] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const { user, dispatch } = useContext(Context);
   const PF = "http://localhost:5000/images/";
@@ -92,8 +95,7 @@ export default function Settings() {
                 <input
                   className="inputCurrentPW"
                   type="password"
-                  value={password}
-                  // onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
                 />
               </div>
               <div className="changeNewPW">
@@ -104,13 +106,13 @@ export default function Settings() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <p className="notePW">(*Please enter password of 6 or more characters*)</p>
+              <p className="notePW">(*Please enter password of 6-15 characters and include at least 1 letter, 1 number and 1 special character!*)</p>
               <div className="changePW">
                 <label className="currentPW">Confirm Password:</label>
                 <input
                   className="confirmPW"
                   type="password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
               <button className="settingsSubmit" onClick={handleUpdate}>

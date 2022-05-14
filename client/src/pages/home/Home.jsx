@@ -37,7 +37,7 @@ export default function Home() {
     fetchPosts();
   }, [search]);
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchCats = async () => {
       const res = await axios.get("/categories");
       setCategories(res.data);

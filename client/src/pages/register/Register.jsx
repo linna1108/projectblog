@@ -1,42 +1,85 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import FormRegis from "../../components/formRegis/FormRegis";
 import "./register.css";
+
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [errors, setError] = useState("");
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState("");
 
+  const inputs = [
+    {
+      id: 1,
+      name: "username",
+      type: "text",
+      placeholder: "Username",
+      errorMessage:
+        "Username should be 3-16 characters and shouldn't include any special character!",
+      label: "Username",
+      pattern: "^[A-Za-z0-9]{3,16}$",
+      required: true,
+    },
+    {
+      id: 2,
+      name: "email",
+      type: "email",
+      placeholder: "Email",
+      errorMessage: "It should be a valid email address!",
+      label: "Email",
+      required: true,
+    },
+    {
+      id: 3,
+      name: "password",
+      type: "password",
+      placeholder: "Password",
+      errorMessage:
+        "Password should be 6-15 characters and include at least 1 letter, 1 number and 1 special character!",
+      label: "Password",
+      pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*_])[a-zA-Z0-9!@#$%^&*_]{6,15}$`,
+      required: true,
+    },
+    {
+      id: 4,
+      name: "confirmPassword",
+      type: "password",
+      placeholder: "Confirm Password",
+      errorMessage: "Passwords don't match!",
+      label: "Confirm Password",
+      pattern: values.password,
+      required: true,
+    },
+  ];
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setPasswordError("");
-      setConfirmPassword("");
-      setTimeout(() => {
-        setError("");
-      }, 5000);
-      return setError("Passwords do not match");
-    } else {
-      try {
-        const res = await axios.post("/auth/register", {
-          username,
-          email,
-          password,
-        });
-        res.data && window.location.replace("/login");
-      } catch (err) {
-        const errors = err.response.data.errors;
-        if (errors) {
-          errors.forEach((error) => setError(error.msg));
-          setTimeout(() => {
-            setError("");
-          }, 5000);
-        }
+    try {
+      const res = await axios.post("/auth/register", {
+        ...values,
+        [e.target.name]: e.target.value,
+      });
+      res.data && window.location.replace("/login");
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => setError(error.msg));
+        setTimeout(() => {
+          setError("");
+        }, 5000);
       }
     }
+  };
+  const onChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   return (
@@ -49,7 +92,9 @@ export default function Register() {
               <div class="logo">
                 <div class="icon-food"></div>
               </div>
-              <h1 class="title">BLOG ITLIFE</h1>
+              <Link to="/" className="link">
+                <h1 class="title">BLOG ITLIFE</h1>
+              </Link>
               <div class="slogan">We are one</div>
             </div>
           </div>
@@ -57,59 +102,22 @@ export default function Register() {
             <div class="wrapper-2">
               <div class="form-title">REGISTER</div>
               <div class="form">
-                <form onSubmit={handleSubmit}>
-                  <p class="content-item">
-                    <label>
-                      <b>Username</b>{" "}
-                    </label>
-                    <input
-                      className="registerInput"
-                      type="text"
-                      placeholder="Enter your username...."
-                      onChange={(e) => setUsername(e.target.value)}
+                <form className="formRegis" onSubmit={handleSubmit}>
+                  {inputs.map((input) => (
+                    <FormRegis
+                      key={input.id}
+                      {...input}
+                      value={values[input.name]}
+                      onChange={onChange}
                     />
-                    {errors.username && <p>{errors.username}</p>}
-                  </p>
-
-                  <p class="content-item">
-                    <label>
-                      <b>Email</b>
-                    </label>
-                    <input
-                      className="registerInput"
-                      type="text"
-                      placeholder="Enter your Email...."
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </p>
-                  <p class="content-item">
-                    <label>
-                      <b>Password</b>
-                    </label>
-                    <input
-                      className="registerInput"
-                      type="password"
-                      placeholder="Enter your password...."
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </p>
-                  <p class="content-item">
-                    <label>
-                      <b>Confirm Password</b>
-                    </label>
-                    <input
-                      className="registerInput"
-                      type="password"
-                      placeholder="Confirm password...."
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                  </p>
-
-                  <button className="btnRegister" type="submit">
-                    Register
-                  </button>
-                  <p class="messageLogin">
-                    Already have an account? <a  href="/login" >Login</a>
+                  ))}
+                  <button className="btnRegis">Register</button>
+                  <p class="messageRegis">
+                    Already have an account?{" "}
+                    <a href="/login" className="link">
+                      {" "}
+                      Sign in
+                    </a>
                   </p>
                 </form>
               </div>

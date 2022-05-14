@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useRef, useContext } from "react";
-import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import "./login.css";
 
 export default function Login() {
   const userRef = useRef();
   const passwordRef = useRef();
-  const { dispatch, isFetching } = useContext(Context);
+
+  const { dispatch, isFetching,error } = useContext(Context);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +19,7 @@ export default function Login() {
         password: passwordRef.current.value,
       });
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+      
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE" });
     }
@@ -41,6 +43,7 @@ export default function Login() {
               <div class="form-title">LOGIN</div>
               <div class="form">
                 <form onSubmit={handleSubmit}>
+                 <p>{error}</p> 
                   <p class="content-item">
                     <label>
                       <b>Email</b>{" "}
@@ -67,7 +70,7 @@ export default function Login() {
                     className="registerLoginButton"
                     type="submit"
                     disabled={isFetching}
-                  >
+                  > 
                     Login
                   </button>
                   <p class="messageLogin">
@@ -75,7 +78,7 @@ export default function Login() {
                   </p>
                 </form>
               </div>
-            </div>
+            </div> 
           </div>
         </div>
       </div>

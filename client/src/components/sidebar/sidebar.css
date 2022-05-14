@@ -11,6 +11,13 @@
   box-sizing: border-box;
   letter-spacing: 2px;
 }
+.sidebarTitle{
+  font-size: 18px;
+  font-weight: 600;
+}
+.recentPostDate{
+  font-size: 10px;
+}
 .sidebarItem1{
   margin:10px 40px 0 -27px;
   background-color: rgb(255, 255, 255);

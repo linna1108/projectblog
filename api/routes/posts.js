@@ -119,7 +119,7 @@ router.put("/:id/like",verify, async (req, res) => {
 		const post = await Post.findById(req.params.id);
 
 		if (post.likes.some((like) => like.user.toString() === req.user.id)) {
-			return res.status(400).json({ error: [{ msg: "Post has been like" }] });
+			return res.send({ error:  "Post has been like"  });
 		}
 		post.likes.unshift({ user: req.user.id });
 		await post.save();
@@ -127,7 +127,7 @@ router.put("/:id/like",verify, async (req, res) => {
   }catch (err) {
     console.log(err.message);
 		if (err.kind == "ObjectId") {
-			res.status(400).json({ msg: "Post not found" });
+			res.send({ error: "Post not found" });
 			res.status(500).send("Server Error");
 		}
     

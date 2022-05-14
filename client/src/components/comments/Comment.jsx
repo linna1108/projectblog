@@ -45,7 +45,7 @@ export default function Comment({ comment, post, setPost }) {
       <div className="commentWrapper">
         <div className="commentTop">
           <div className="commentUserInfo">
-            <span className="commentName">{comment.username}</span>
+            <p className="commentName">{comment.username}</p>
           </div>
           {isUpdate ? (
             <textarea
@@ -59,7 +59,7 @@ export default function Comment({ comment, post, setPost }) {
         </div>
         <div className="commentBottom">
           {!isUpdate && (
-            <span className="commentDate">{format(comment.date)}</span>
+            <p className="commentDate">{format(comment.date)}</p>
           )}
           {user && user.username === comment.username && (
             <div className="reaction">

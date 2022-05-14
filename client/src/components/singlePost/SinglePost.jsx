@@ -99,7 +99,9 @@ export default function SinglePost() {
       const res = await axios.put(`/posts/${post._id}/like`,{newLike},config);
       setLikes(res.data);
 			setPost({ ...post, likes });
-
+      // if(res.data.error){
+      //   setError(res.data.error)
+      // }
 			window.location.reload();
       return setSuccess("Post Liked");
     }catch (err) {
@@ -223,6 +225,7 @@ export default function SinglePost() {
                 <span className="likesCount">
                   {post.likes?.length} people likes{" "}
                 </span>
+                
               </div>
               <div className="rightReaction">
                 <span className="rightReactionCount"></span>

@@ -33,14 +33,14 @@ export default function Sidebar({ post }) {
   return (
     <div className="sidebar">
       <div className="sidebarItem">
-        <span>RECENT POSTS</span>
+        <p className="sidebarTitle">RECENT POSTS</p> 
         <hr />
         <div className="recentPost">
           {currentPosts.map((post) => (
             <Link to={`/post/${post._id}`} className="link">
               <div className="recentPost">
                 <h3>{post.title}</h3>
-                <span>{new Date(post.createdAt).toDateString()}</span>
+                <p className="recentPostDate">{new Date(post.createdAt).toDateString()}</p>
               </div>
             </Link>
           ))}
