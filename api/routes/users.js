@@ -5,35 +5,39 @@ const verify = require("../verifyToken");
 const CryptoJS = require("crypto-js");
 
 //UPDATE
-router.put("/:id",verify, async(req,res) => {
-  try{
+router.put("/:id", verify, async (req, res) => {
+  try {
     const user = await User.findById(req.user.id);
-  if (!user) {
-    res.status(404).json({ msg: "User not found" });
-  }
-    user.username = req.body.username || user.username;
-		user.profilePic= req.body.profilePic|| user.profilePic;
-    if (req.body.password) {
-      req.body.password = CryptoJS.AES.encrypt(
-        req.body.password,
-        process.env.SECRET_KEY
-      ).toString();
+    var decryptedWA = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.SECRET_KEY
+    );
+    const decryptedPassword = decryptedWA.toString(CryptoJS.enc.Utf8);
+    if (decryptedPassword === req.body.currentPassword) {
+      user.username = req.body.username || user.username;
+      user.profilePic = req.body.profilePic || user.profilePic;
+      if (req.body.password) {
+        user.password =CryptoJS.AES.encrypt(
+          req.body.password,
+          process.env.SECRET_KEY
+        ).toString();
+      } 
+      const upDatedUser = await user.save();
+      res.json(upDatedUser);
+    }else{
+      return res.status(403).json({ PasswordInvalid: "Password invalid" });
     }
-    const upDatedUser = await user.save();
-		res.json(upDatedUser);
-  }catch(err){
+    
+  } catch (err) {
     console.log(err.message);
-		res.status(500).send("Server Error");
+    res.status(500).send("Server Error");
   }
-  
 });
 
-
-
 //DELETE
-router.delete("/:id",verify, async (req, res) => {
+router.delete("/:id", verify, async (req, res) => {
   if (req.body.userId === req.params.id || req.user.isAdmin) {
-    try { 
+    try {
       const user = await User.findById(req.params.id);
       try {
         await Post.deleteMany({ username: user.username });
@@ -61,7 +65,7 @@ router.get("/", async (req, res) => {
     const { password, ...others } = user._doc;
     res.status(200).json(others);
   } catch (err) {
-    res.status(500).json(err); 
+    res.status(500).json(err);
   }
 });
 
@@ -137,14 +141,14 @@ router.get("/friends/:userId", async (req, res) => {
       const { _id, username, profilePic } = friend;
       friendList.push({ _id, username, profilePic });
     });
-    res.status(200).json(friendList)
+    res.status(200).json(friendList);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
 //get user stats
-router.get("/stats", async(req,res) =>{
+router.get("/stats", async (req, res) => {
   const today = new Date();
   const latYear = today.setFullYear(today.setFullYear() - 1);
 
@@ -162,20 +166,20 @@ router.get("/stats", async(req,res) =>{
         },
       },
     ]);
-    res.status(200).json(data)
+    res.status(200).json(data);
   } catch (err) {
     res.status(500).json(err);
   }
-}); 
+});
 
 // search user
 router.get("/search/:key", async (req, res) => {
-  try{
+  try {
     let data = await User.find({
-      $or:[{username:{$regex:req.params.key}}],
+      $or: [{ username: { $regex: req.params.key } }],
     });
     res.send(data);
-  }catch(err){
+  } catch (err) {
     res.status(500).json(err);
-  } 
+  }
 });
