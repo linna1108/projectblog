@@ -1,6 +1,6 @@
 import "./settings.css";
 import Footer from "../../components/footer/Footer";
-import { useContext, useState } from "react";
+import { useContext, useState,useRef } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
 import Topbar from "../../components/topbar/Topbar";
@@ -12,9 +12,8 @@ export default function Settings() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
+  const errorMessage = useRef();
+  const errorConfirmPassword = useRef();
   const { user, dispatch } = useContext(Context);
   const PF = "http://localhost:5000/images/";
 
@@ -44,10 +43,17 @@ export default function Settings() {
     };
 
     try {
-      const res = await axios.put("/users/" + user._id, updatedUser, config);
-      window.location.replace("/");
-      dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
+      if(password !== confirmPassword || password === "" && confirmPassword === "" ){
+        errorConfirmPassword.current = ("New password & Confirm Password don't match")
+      }
+      else{
+        const res = await axios.put("/users/" + user._id, updatedUser, config);
+        const keepToken = {...res.data, accessToken:JSON.parse(localStorage.getItem("user")).accessToken}; 
+        window.location.replace("/");
+         dispatch({ type: "UPDATE_SUCCESS", payload: keepToken });
+      }     
     } catch (err) {
+      errorMessage.current = err.response.data.PasswordInvalid;
       dispatch({ type: "UPDATE_FAILURE" });
     }
   };
