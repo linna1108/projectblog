@@ -4,7 +4,7 @@
     
 }
 .sidebarItem{   
-  margin: 45px 40px 0 -27px;
+  margin: 40px 40px 0 -27px;
   background-color: rgb(255, 255, 255);
   text-align: center;
   padding: 10px 0;
@@ -12,8 +12,9 @@
   letter-spacing: 2px;
 }
 .sidebarTitle{
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "Quicksand", sans-serif;;
 }
 .recentPostDate{
   font-size: 10px;
