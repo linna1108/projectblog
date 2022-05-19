@@ -35,7 +35,6 @@ export default function CommentForm({ post, setPost }) {
     } catch (error) {}
   };
 
-  
   return (
     <div className="commentForm">
       {user ? (
@@ -50,12 +49,22 @@ export default function CommentForm({ post, setPost }) {
         </h2>
       )}
       <form onSubmit={handleSubmit}>
-        <textarea
-          className="commentTextArea"
-          rows="5"
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}
-        ></textarea>
+        {user ? (
+          <textarea
+            className="commentTextArea"
+            rows="5"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+          ></textarea>
+        ) : (
+          <textarea
+            className="commentTextArea"
+            rows="5"
+            value={desc}
+            disabled
+          ></textarea>
+        )}
+
         <button className="commentBtn" type="submit">
           Send
         </button>

@@ -11,32 +11,46 @@ export default function Aboutus() {
       <div className="about">
         <div className="container">
           <div className="aboutWrapper"></div>
-          <div className="aboutTitle">
-            <div className="Title">
-              <h1>GIỚI THIỆU </h1>
-              <p>&nbsp;</p>
-              <p>
-                Connection – sự kết nối là từ mà ITLife.tech(được viết tắt là
-                ITLife) muốn mọi người nhớ tới khi nhắc về chúng tôi, dù bạn ở
-                bất kỳ đâu, dù xa hay gần bất kể khoảng cách ITLife sẽ làm cầu
-                nối để kết nối mọi người lại “gần” với nhau hơn trên nền tảng
-                trực tuyến.
-              </p>
-                   
-              <p>
-                ITLife là một dịch vụ mạng xã hội chia sẻ hình ảnh và video do
-                chính Khoa CNTT trường Đại học Văn Lang đầu tư và phát triển bởi
-                nhóm nghiên cứu 2 thành viên là Thanh Trí và Hoài Linh, cho phép
-                người dùng tải lên các phương tiện và được sắp xếp theo các thẻ
-                bắt đầu bằng #. Bài đăng có thể được chia sẻ công khai hoặc với
-                những người theo dõi bạn. Người dùng có thể thích ảnh, theo dõi
-                những người dùng khác và bình luận trên những bài viết đó. Ngoài
-                ra các người dùng có thể kết nối với nhau qua hình thức nhắn tin
-                trực tiếp với nhau. ITLife được nghiên cứu và phát triển vào
-                ngày 03/03/2022, dự tính sẽ triển khai hoạt động chính thức trên
-                itlife.tech vào ngày 03/05/2022.
-              </p>
-            </div>
+
+          <div className="Title">
+            <h1 className="aboutSm">ABOUT US</h1>
+          </div>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp; </p>
+          <div className="aboutDesc">
+            <p className="desc">
+              Connection - connection is the word that ITLife.tech{" "}
+              <i>( ITLife )</i> wants people to remember when they think of us,
+              no matter where you live, far or near, regardless of distance
+              ITLife will act as a bridge. connecting people closer together” on
+              the online platform. More specifically, ITLife is a place for
+              students of Information Technology Faculty of Van Lang University
+              to freely express their thoughts and feelings through blog posts
+              and comments.
+            </p>
+            <img
+              className="aboutImg1"
+              src="https://icdn.dantri.com.vn/thumb_w/640/2018/3/2/photo-1-1519975461577334594935.jpg"
+              alt=""
+            />
+          </div>
+          <div className="aboutIT">
+            <img
+              className="aboutImg2"
+              src="https://tintuctuyensinh.vn/wp-content/uploads/2021/01/dai-hoc-van-lang-tuyen-sinh-2.jpg"
+              alt=""
+            />
+            <p className="descIT">
+              ITLife is a photo and video sharing social networking service
+              created by Head of IT Faculty of Van Lang University invested and
+              developed by The research team has 2 members, Thanh Tri and Hoai
+              Linh, with permission users upload media and are sorted by tags
+              start with #. Posts can be shared publicly or with your followers.
+              Users can like photos, follow other users and comment on those
+              posts. Outside so users can connect with each other through
+              messaging directly with each other. ITLife was researched and
+              developed in On March 3, 2022, it is expected to officially launch
+              activities on itlife.tech on May 3, 2022.
+            </p>
           </div>
         </div>
       </div>

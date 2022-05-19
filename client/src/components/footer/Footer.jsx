@@ -10,7 +10,7 @@ export default function Footer() {
                <img className="logofooter" src = "https://i.imgur.com/okiHypt.png" ></img>
               </div>
               <div className="footerContainer-2">
-              <h4>ORTHER CATEGORIES</h4>
+              <h4>MENU</h4>
               
                 <ul>
                   <li><a  href="/">Homepage</a></li>
@@ -20,9 +20,10 @@ export default function Footer() {
               </div>
               <div className="footerContainer-3">
               <h4>VAN LANG UNIVERSITY</h4>
-                <p >Cơ sở chính: 69/68 Đặng Thùy Trâm, P. 13, Q. Bình Thạnh, TP. HCM</p>
-                <p>Cơ sở 1: 45 Nguyễn Khắc Nhu, P. Cô Giang, Q.1, TP. HCM</p>
-                <p>Cơ sở 2: 233A Phan Văn Trị, P.11, Q. Bình Thạnh, TP. HCM</p>
+                <p >Main campus: 69/68 Dang Thuy Tram Street, Ward 13, Binh Thanh District, HCMC</p>
+                <p>Campus 1: 45 Nguyen Khac Nhu Street, Co Giang Ward, District 1, HCMC</p>
+                <p>Campus 2: 233A Phan Van Tri Street , Ward 11, Binh Thanh District, HCMC</p>
+               
               </div>
             </div>
         </div>

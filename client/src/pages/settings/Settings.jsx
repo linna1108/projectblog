@@ -4,7 +4,6 @@ import { useContext, useState,useRef } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
 import Topbar from "../../components/topbar/Topbar";
-import { fontSize } from "@mui/system";
 
 export default function Settings() {
   const [file, setFile] = useState("");
@@ -12,8 +11,9 @@ export default function Settings() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const errorMessage = useRef();
-  const errorConfirmPassword = useRef();
+	const [passwordError, setPasswordError] = useState("");
+	const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const { user, dispatch } = useContext(Context);
   const PF = "http://localhost:5000/images/";
 
@@ -22,8 +22,8 @@ export default function Settings() {
     dispatch({ type: "UPDATE_START" });
     const updatedUser = {
       userId: user._id,
-      username,
       password,
+      currentPassword
     };
 
     if (file) {
@@ -31,6 +31,7 @@ export default function Settings() {
       const filename = Date.now() + file.name;
       data.append("name", filename);
       data.append("file", file);
+
       updatedUser.profilePic = filename;
       try {
         await axios.post("/upload", data);
@@ -38,26 +39,39 @@ export default function Settings() {
     }
     const config = {
       headers: {
+        "Content-Type": "application/json",
         token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
       },
     };
-
     try {
-      if(password !== confirmPassword || password === "" && confirmPassword === "" ){
-        errorConfirmPassword.current = ("New password & Confirm Password don't match")
+      if (password !== confirmPassword) {
+        setPasswordError("");
+        setConfirmPassword("");
+        setTimeout(() => {
+          setError("");
+        }, 5000);
+        return setError("Passwords do not match");
       }
       else{
         const res = await axios.put("/users/" + user._id, updatedUser, config);
         const keepToken = {...res.data, accessToken:JSON.parse(localStorage.getItem("user")).accessToken}; 
+        setTimeout(() => {
+          setSuccess("");
+        }, 5000);
+        setSuccess("Profile Successfully Updated");
         window.location.replace("/");
          dispatch({ type: "UPDATE_SUCCESS", payload: keepToken });
       }     
     } catch (err) {
-      errorMessage.current = err.response.data.PasswordInvalid;
-      dispatch({ type: "UPDATE_FAILURE" });
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => setError(error.msg));
+      }
+      setTimeout(() => {
+        setError("");
+      }, 5000);
     }
   };
-
   return (
     <>
       <Topbar />
@@ -65,6 +79,8 @@ export default function Settings() {
         <div className="settingsWrapper">
           <div className="settingsbox">
             <div className="settingsTitle">
+            {success && <p className="success">{success}</p>}
+           
               <span className="settingsUpdateTitle">UPDATE PROFILE</span>
             </div>
             <form className="settingsForm">
@@ -82,16 +98,6 @@ export default function Settings() {
                   id="fileInput"
                   style={{ display: "none" }}
                   onChange={(e) => setFile(e.target.files[0])}
-                />
-              </div>
-              <div>
-                <label className="lblUser">Username</label>
-                <input
-                  className="inputUser"
-                  type="text"
-                  placeholder={user.username}
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
 
@@ -121,6 +127,7 @@ export default function Settings() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
+              {error && <p className="error">{error}</p>}
               <button className="settingsSubmit" onClick={handleUpdate}>
                 Update
               </button>

@@ -23,8 +23,7 @@ export default function Register() {
       name: "username",
       type: "text",
       placeholder: "Username",
-      errorMessage:
-        "Username should be 3-16 characters and shouldn't include any special character!",
+      errorMessage: "Username should be 3-16 characters",
       label: "Username",
       pattern: "^[A-Za-z0-9]{3,16}$",
       required: true,
@@ -44,9 +43,9 @@ export default function Register() {
       type: "password",
       placeholder: "Password",
       errorMessage:
-        "Password should be 6-15 characters and include at least 1 letter, 1 number and 1 special character!",
+        "Password should be 6-15 characters and include at least 1 letter, 1 number",
       label: "Password",
-      pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*_])[a-zA-Z0-9!@#$%^&*_]{6,15}$`,
+      pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{6,15}$`,
       required: true,
     },
     {
@@ -62,12 +61,22 @@ export default function Register() {
   ];
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
     try {
-      const res = await axios.post("/auth/register", {
-        ...values,
-        [e.target.name]: e.target.value,
-      });
-      res.data && window.location.replace("/login");
+      const res = await axios.post(
+        "/auth/register",
+        {
+          ...values,
+          [e.target.name]: e.target.value,
+        },
+        config
+      );
+      localStorage.setItem("token", res.data.token); 
+       window.location.replace("/login");
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {
@@ -101,6 +110,7 @@ export default function Register() {
           <div class="signup-form ">
             <div class="wrapper-2">
               <div class="form-title">REGISTER</div>
+              
               <div class="form">
                 <form className="formRegis" onSubmit={handleSubmit}>
                   {inputs.map((input) => (
@@ -111,12 +121,13 @@ export default function Register() {
                       onChange={onChange}
                     />
                   ))}
+                  {error && <p className="error">{error}</p>}
                   <button className="btnRegis">Register</button>
                   <p class="messageRegis">
                     Already have an account?{" "}
                     <a href="/login" className="link">
                       {" "}
-                      Sign in
+                      <b>Sign in</b>
                     </a>
                   </p>
                 </form>

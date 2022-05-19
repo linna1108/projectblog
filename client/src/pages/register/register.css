@@ -65,7 +65,7 @@ p {
   margin: 0 auto;
 }
 .signup-wrapper .company-details .title {
-  padding: 20px;
+  padding: 10px;
   width: 74%;
   margin: 0 auto;
   text-transform: uppercase;
@@ -152,7 +152,10 @@ input::placeholder {
 
   .signup-wrapper .company-details .title {
     width: 80%;
-    font-size: 2em;
+    font-size: 2.4em;
+    font-weight: 600;
+    font-style: italic;
+    color: #F8F8FF;
   }
 }
 .btnRegister {
@@ -184,7 +187,7 @@ input::placeholder {
   .signup-wrapper {
     display: flex;
     max-width: 700px;
-    max-height: 550px;
+    max-height: 650px;
     margin: 0 auto;
     margin-top: 5%;
     margin-bottom: 30px;

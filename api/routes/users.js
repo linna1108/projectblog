@@ -14,7 +14,6 @@ router.put("/:id", verify, async (req, res) => {
     );
     const decryptedPassword = decryptedWA.toString(CryptoJS.enc.Utf8);
     if (decryptedPassword === req.body.currentPassword) {
-      user.username = req.body.username || user.username;
       user.profilePic = req.body.profilePic || user.profilePic;
       if (req.body.password) {
         user.password =CryptoJS.AES.encrypt(
@@ -25,7 +24,7 @@ router.put("/:id", verify, async (req, res) => {
       const upDatedUser = await user.save();
       res.json(upDatedUser);
     }else{
-      return res.status(403).json({ PasswordInvalid: "Password invalid" });
+      return res.status(403).json({ errors: [{ msg: "Password Invalid" }] });
     }
     
   } catch (err) {

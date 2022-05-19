@@ -10,9 +10,13 @@ router.post(
   [
     check("title", "Title is required").notEmpty(),
     check("desc", "Description is required").notEmpty(),
-    check("category", "Post category is required").notEmpty(),
+    check("categories", "Post category is required").notEmpty(),
   ],
   async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const newPost = new Post(req.body);
     try {
       const savedPost = await newPost.save();
@@ -49,7 +53,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE POST
-router.delete("/:id",verify, async (req, res) => {
+router.delete("/:id", verify, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (post.username === req.body.username || req.user.isAdmin) {
@@ -103,37 +107,41 @@ router.get("/", async (req, res) => {
 //GET USER'S ALL POST
 router.get("/profile/:username", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username });
-    const posts = await Post.find({ username: user.username });
+    const user = await User.findOne({username : req.params.username});
+    const posts = await Post.find({ userId: user._id });
     res.status(200).json(posts);
+
+   
   } catch (err) {
-    res.status(500).json(err);
+    console.log(err.message);
+    if (err.kind == "ObjectId") {
+      res.status(404).json({ msg: "Post not found" });
+      res.status(500).send("Server Error");
+    }
   }
 });
 
 module.exports = router;
 
 //Like a post
-router.put("/:id/like",verify, async (req, res) => {
+router.put("/:id/like", verify, async (req, res) => {
   try {
-		const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id);
 
-		if (post.likes.some((like) => like.user.toString() === req.user.id)) {
-			return res.send({ error:  "Post has been like"  });
-		}
-		post.likes.unshift({ user: req.user.id });
-		await post.save();
-		res.json(post.likes);
-  }catch (err) {
+    if (post.likes.some((like) => like.user.toString() === req.user.id)) {
+      return res.status(400).json({ msg: "Post has already been liked" });
+    }
+    post.likes.unshift({ user: req.user.id });
+    await post.save();
+    res.json(post.likes);
+  } catch (err) {
     console.log(err.message);
-		if (err.kind == "ObjectId") {
-			res.send({ error: "Post not found" });
-			res.status(500).send("Server Error");
-		}
-    
+    if (err.kind == "ObjectId") {
+      res.status(400).json({ msg: "Post not found" });
+      res.status(500).send("Server Error");
+    }
   }
 });
-
 
 //create comment
 router.post("/:id/comments", verify, async (req, res) => {
@@ -246,12 +254,12 @@ router.put("/:id/comments/:commentId", verify, async (req, res) => {
 
 //search blog
 router.get("/search/:key", async (req, res) => {
-  try{
+  try {
     let data = await Post.find({
-      $or:[{title:{$regex:req.params.key}}],
+      $or: [{ title: { $regex: req.params.key } }],
     });
     res.send(data);
-  }catch(err){
+  } catch (err) {
     res.status(500).json(err);
-  } 
+  }
 });

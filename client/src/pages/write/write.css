@@ -74,16 +74,45 @@
   }
   
   .writeSubmit {
-    position: absolute;
-    top: 800px;
-    right: 70px;
+    position: relative;
+    top: 10px;
+    left: 970px;
     color: white;
     background-color: rgba(1, 18, 73, 0.911);;
     padding: 10px;
     border: none;
     border-radius: 10px;
-    cursor: pointer;
+    cursor: pointer; 
     font-size: 16px;
     margin-bottom: 10px;
+  }
+  @media only screen and (max-width: 600px) {
+    .container {
+      margin-top: 3rem;
+    }
+    .writeImg {
+      height: 30vh;
+      margin-top: 10px;
+    }
+  
+    .writeIcon {
+      font-size: 24px;
+    }
+  
+    .writeCategorySelect{
+      padding: 3px;
+    }
+    .writeInput {
+      font-size: 24px;
+    }
+  
+    .writeText {
+      margin: 0px 0px 16px 0px;
+      font-size: 18px;
+    }
+  
+    .writeSubmit {
+      padding: 5px 10px;
+    }
   }
   

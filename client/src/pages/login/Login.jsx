@@ -1,27 +1,35 @@
-import axios from "axios";
-import { useRef, useContext } from "react";
-import { Context } from "../../context/Context";
 import "./login.css";
+import { Context } from "../../context/Context";
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
-  const userRef = useRef();
-  const passwordRef = useRef();
-
-  const { dispatch, isFetching,error } = useContext(Context);
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { dispatch, isFetching } = useContext(Context);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }; 
     try {
-      const res = await axios.post("/auth/login", {
-        email: userRef.current.value,
-        password: passwordRef.current.value,
-      });
+      const res = await axios.post("/auth/login", { email, password }, config);
+      localStorage.setItem("token", res.data.token);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
-      
     } catch (err) {
-      dispatch({ type: "LOGIN_FAILURE" });
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => setError(error.msg));
+      }
+      setTimeout(() => {
+        setError("");
+      }, 5000);
     }
   };
   return (
@@ -34,51 +42,54 @@ export default function Login() {
               <div class="logo">
                 <div class="icon-food"></div>
               </div>
-              <h1 class="title">BLOG ITLIFE</h1>
-              <div class="slogan"></div>
+              <Link to="/" className="link">
+                <h1 class="title">BLOG ITLIFE</h1>
+              </Link>
+              <div class="slogan">We are one</div>
             </div>
           </div>
           <div class="signup-form ">
             <div class="wrapper-2">
-              <div class="form-title">LOGIN</div>
+              <div class="form-titlelogin">LOGIN</div>
+              {error && <p className="errorLogin">{error}</p>}
               <div class="form">
                 <form onSubmit={handleSubmit}>
-                 <p>{error}</p> 
                   <p class="content-item">
                     <label>
                       <b>Email</b>{" "}
                     </label>
                     <input
-                      className="loginInput"
-                      type="text"
-                      placeholder="Enter your email...."
-                      ref={userRef}
-                    ></input>{" "}
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                   </p>
                   <p class="content-item">
                     <label>
                       <b>Password</b>
                     </label>
                     <input
-                      className="loginInput"
                       type="password"
-                      placeholder="Enter your password...."
-                      ref={passwordRef}
-                    ></input>
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />{" "}
                   </p>
-                  <button
-                    className="registerLoginButton"
-                    type="submit"
-                    disabled={isFetching}
-                  > 
+
+                  <button className="registerLoginButton" type="submit">
                     Login
                   </button>
                   <p class="messageLogin">
-                    Not registered? <a href="/register">Create an account</a>
+                    Not registered?{" "}
+                    <a href="/register">
+                      {" "}
+                      <b>Create an account</b>
+                    </a>
                   </p>
                 </form>
               </div>
-            </div> 
+            </div>
           </div>
         </div>
       </div>

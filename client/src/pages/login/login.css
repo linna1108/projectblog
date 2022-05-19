@@ -85,7 +85,7 @@ position: absolute;
   padding: 14px 20px;
   margin: 30px 80px;
 }
-.signup-wrapper .signup-form .form-title{
+.signup-wrapper .signup-form .form-titlelogin{
   font-size: 1.5em;
   color:  #c20a0a;
   padding: 5px;
@@ -100,14 +100,12 @@ position: absolute;
   margin-top: px;
   text-align: center;
 }
-.signup-wrapper .signup-form .form input[type=text],.signup-wrapper .signup-form .form input[type=password]{
+.signup-wrapper .signup-form .form input[type=email],.signup-wrapper .signup-form .form input[type=password]{
   border: none;
   border-bottom: 1px solid #e4e4e4;
   padding-top: 10px;
   padding-bottom: 10px;
   display: block;
-
-  text-align: center;
   width: 100%;
 }
 .signup-wrapper .signup-form .signup {
@@ -181,7 +179,7 @@ input::placeholder {
   margin-top: 20px;
   margin-left: 40px;
   color: #363636;
-  font-size: 12px;
+  font-size: 14px;
 }
 .messageLogin a{
   color: #4CAF50;
@@ -239,10 +237,23 @@ input::placeholder {
       text-align: initial;
 
   }
- .signup-wrapper .signup-form .form-title{
+ .signup-wrapper .signup-form .form-titlelogin{
       text-align: initial;
       padding :0;
       margin-left: 90px;
   }
+}
+.errorLogin{
+  background-color:#d40606 ;
+	padding: 6px 0;
+	border-radius: 8px;
+	margin: auto;
+	margin-bottom: 8px;
+	color: white;
+	font-size: 13px;
+	font-style: italic;
+	text-align: center;
+	font-weight: 600;
+	width: 40%;
 
 }

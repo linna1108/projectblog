@@ -161,3 +161,7 @@
   color: red;
   margin-left: 158px;
 }
+.errorMessage{
+  font-size: 14px;
+  color: #000;
+}
